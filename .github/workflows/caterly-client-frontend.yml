@@ -1,0 +1,38 @@
+name: Caterly Client Frontend CI
+
+on:
+  push:
+    paths:
+      - 'caterly-client-frontend/**'
+  pull_request:
+    paths:
+      - 'caterly-client-frontend/**'
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies for caterly-client-frontend
+        run: |
+          cd caterly-client-frontend
+          yarn install
+
+      - name: Run tests
+        run: |
+          cd caterly-client-frontend
+          yarn test --watchAll=false
+
+      - name: Run linter
+        run: |
+          cd caterly-client-frontend
+          yarn lint
+
