@@ -1,0 +1,82 @@
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  postgres:
+    image: 'postgres:17'
+    container_name: postgres
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U myuser -d mydatabase" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  flyway:
+    image: flyway/flyway:10.20.0
+    container_name: flyway
+    volumes:
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/flyway.conf:/flyway/conf/flyway.conf
+    command: [ "-configFiles=/flyway/conf/flyway.conf", "migrate" ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+
+  gateway-service:
+    container_name: gatewayService
+    build:
+      context: ./gatewayService
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - app-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      catering-company-service:
+        condition: service_started
+      catering-client-service:
+        condition: service_started
+
+  catering-company-service:
+    container_name: cateringCompany
+    build:
+      context: ./cateringCompanyService
+      dockerfile: Dockerfile
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydatabase'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+    networks:
+      - app-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  catering-client-service:
+    container_name: clientCompany
+    build:
+      context: ./cateringClientService
+      dockerfile: Dockerfile
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydatabase'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+    networks:
+      - app-network
+    depends_on:
+      postgres:
+        condition: service_healthy
