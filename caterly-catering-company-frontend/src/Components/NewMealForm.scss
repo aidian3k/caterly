@@ -1,0 +1,73 @@
+.new-meal-form-container {
+    margin: 30px;
+    .error-msg-container {
+        .error-msg {
+            color: red;
+            height: 24px;
+        }
+    }
+
+    .new-meal-form {
+        .new-meal-form-section{
+            display:flex;
+            flex-direction: column;
+            margin: 10px 0 10px 0;
+
+            input, textarea {
+                margin: 5px;
+                border-radius: 7px;
+                padding: 5px;
+            }
+
+            .input-label{
+
+            }
+
+            .text-input{
+
+            }
+
+            .text-area-input{
+                resize: none;
+                height: 100px;
+            }
+        }
+
+        .new-meal-form-btns{
+            float: right;
+
+            * {
+                margin-left: 5px;
+                border-radius: 8px;
+                border: 1px solid transparent;
+                padding: 0.6em 1.2em;
+                font-size: 1em;
+                font-weight: 500;
+                font-family: inherit;
+                background-color: #1a1a1a;
+                cursor: pointer;
+                transition: border-color 0.25s;
+            }
+
+            *:hover {
+                transition: all 0.5s ease-in;
+            }
+
+            .cancle-btn {
+                background-color: #616161;
+                &:hover {
+                    color: #c7c7c7;
+                    background-color: #212121;
+                }
+            }
+
+            .submit-btn{
+                background-color: #298e42;
+                &:hover {
+                    color: #c7c7c7;
+                    background-color: #184924; 
+                }
+            }
+        }
+    }
+}

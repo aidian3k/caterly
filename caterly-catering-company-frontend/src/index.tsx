@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {createBrowserRouter, RouterProvider } from "react-router-dom";
+import NewMealForm from "./Components/NewMealForm";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,  
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
   {
     path: "/catering-company",
     element: <App />,
-  }
+  },
+  {
+    path: "/catering-company/new-meal",
+    element: <NewMealForm />,
+  },
 ]);
 
 root.render(
