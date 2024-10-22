@@ -13,16 +13,17 @@ export default function NewMealForm() {
     const [ErrorMsg, setErrorMsg] = useState("")
     const navigate = useNavigate()
 
+    const onCancle = () => navigate(-1)
     const onSubmit = () => {
 /*      AddMeal(MealName, MealDescription, parseFloat(MealPrice))
         .then((resp) =>
         {
-            navigate("/catering-company")
+            navigate(-1)
         }).catch((err) =>
         {
             setErrorMsg("Something went wrong...")
         })*/
-        navigate("/catering-company")
+        navigate(-1)
     }
 
     return (<>
@@ -51,7 +52,7 @@ export default function NewMealForm() {
                     <input className="text-input" type="file" value={MealPhoto} onChange={(e) => setMealPhoto(e.target.value)}/>
                 </div> 
                 <div className="new-meal-form-btns">
-                    <button className="cancle-btn" onClick={() => navigate("/catering-company")}>Cancle</button>
+                    <button className="cancle-btn" onClick={onCancle}>Cancle</button>
                     <button className="submit-btn" onClick ={onSubmit}>Submit</button>
                 </div>
             </div>            
