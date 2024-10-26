@@ -5,5 +5,5 @@ RUN gradle clean build
 
 FROM openjdk:21-jdk
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar /app/app.jar
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY --from=build /app/build/libs/*.jar /app/CateringClientService.jar
+ENTRYPOINT ["java","-jar","/app/CateringClientService.jar"]

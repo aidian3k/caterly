@@ -9,3 +9,5 @@ W buildzie jest SpotBugs do statycznej analizy kodu i Checkstyle do sprawdzania 
 Dajcie znać, jeśli rulesy Checkstyle'a są za restrykcyjne/kłócą się z dobrymi praktykami kodu w Spring.
 
 Controllery obok maina zostawiam dla testów dla mnie, jakby musiał coś poprawić. Dopóki nie będzie konfliktu nazw w implementacji, to je zostawcie. Usunie się przy oddawaniu projektu klientowi.
+
+W folderze backend musi być plik .env, nie wrzucać go do repo
