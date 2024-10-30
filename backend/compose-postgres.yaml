@@ -1,0 +1,62 @@
+services:
+  postgres_catering_company:
+    image: 'postgres:17'
+    container_name: postgres_catering_company
+    environment:
+      - POSTGRES_DB=${POSTGRES_COMPANY_DB}
+      - POSTGRES_USER=${POSTGRES_COMPANY_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+    ports:
+      - '5433:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_COMPANY_USER} -d ${POSTGRES_COMPANY_DB}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+  postgres_catering_client:
+    image: 'postgres:17'
+    container_name: postgres_catering_client
+    environment:
+      - POSTGRES_DB=${POSTGRES_CLIENT_DB}
+      - POSTGRES_USER=${POSTGRES_CLIENT_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+    ports:
+      - '5434:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_CLIENT_USER} -d ${POSTGRES_CLIENT_DB}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+  flyway_catering_company:
+    image: flyway/flyway:10.20.0
+    container_name: flyway_catering_company
+    volumes:
+      - ./flyway/sql/cateringCompany:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    command: ["-configFiles=/flyway/conf/flyway.conf", "migrate"]
+    depends_on:
+      postgres_catering_company:
+        condition: service_healthy
+    environment:
+      - FLYWAY_DB=${POSTGRES_COMPANY_DB}
+      - FLYWAY_USER=${POSTGRES_COMPANY_USER}
+      - FLYWAY_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+      - FLYWAY_URL=jdbc:postgresql://postgres_catering_company:5432/${POSTGRES_COMPANY_DB}
+
+  flyway_catering_client:
+    image: flyway/flyway:10.20.0
+    container_name: flyway_catering_client
+    volumes:
+      - ./flyway/sql/cateringClient:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    command: ["-configFiles=/flyway/conf/flyway.conf", "migrate"]
+    depends_on:
+      postgres_catering_client:
+        condition: service_healthy
+    environment:
+      - FLYWAY_DB=${POSTGRES_CLIENT_DB}
+      - FLYWAY_USER=${POSTGRES_CLIENT_USER}
+      - FLYWAY_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+      - FLYWAY_URL=jdbc:postgresql://postgres_catering_client:5432/${POSTGRES_CLIENT_DB}

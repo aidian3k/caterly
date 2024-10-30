@@ -1,0 +1,130 @@
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  postgres_catering_company:
+    image: 'postgres:17'
+    container_name: postgres_catering_company
+    environment:
+      - POSTGRES_DB=${POSTGRES_COMPANY_DB}
+      - POSTGRES_USER=${POSTGRES_COMPANY_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+    ports:
+      - '5433:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_COMPANY_USER} -d ${POSTGRES_COMPANY_DB}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  postgres_catering_client:
+    image: 'postgres:17'
+    container_name: postgres_catering_client
+    environment:
+      - POSTGRES_DB=${POSTGRES_CLIENT_DB}
+      - POSTGRES_USER=${POSTGRES_CLIENT_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+    ports:
+      - '5434:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_CLIENT_USER} -d ${POSTGRES_CLIENT_DB}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  flyway_catering_company:
+    image: flyway/flyway:10.20.0
+    container_name: flyway_catering_company
+    volumes:
+      - ./flyway/sql/cateringCompany:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    command: ["-configFiles=/flyway/conf/flyway.conf", "migrate"]
+    depends_on:
+      postgres_catering_company:
+        condition: service_healthy
+    environment:
+      - FLYWAY_DB=${POSTGRES_COMPANY_DB}
+      - FLYWAY_USER=${POSTGRES_COMPANY_USER}
+      - FLYWAY_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+      - FLYWAY_URL=jdbc:postgresql://postgres_catering_company:5432/${POSTGRES_COMPANY_DB}
+    networks:
+      - app-network
+
+  flyway_catering_client:
+    image: flyway/flyway:10.20.0
+    container_name: flyway_catering_client
+    volumes:
+      - ./flyway/sql/cateringClient:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    command: ["-configFiles=/flyway/conf/flyway.conf", "migrate"]
+    depends_on:
+      postgres_catering_client:
+        condition: service_healthy
+    environment:
+      - FLYWAY_DB=${POSTGRES_CLIENT_DB}
+      - FLYWAY_USER=${POSTGRES_CLIENT_USER}
+      - FLYWAY_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+      - FLYWAY_URL=jdbc:postgresql://postgres_catering_client:5432/${POSTGRES_CLIENT_DB}
+    networks:
+      - app-network
+
+  gateway-service:
+    container_name: gatewayService
+    build:
+      context: ./gatewayService
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_CLOUD_GATEWAY_ROUTES[0]_ID=cateringClientService
+      - SPRING_CLOUD_GATEWAY_ROUTES[0]_URI=http://clientCompany:8081
+      - SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]=Path=/client/**
+      - SPRING_CLOUD_GATEWAY_ROUTES[1]_ID=cateringCompanyService
+      - SPRING_CLOUD_GATEWAY_ROUTES[1]_URI=http://cateringCompany:8082
+      - SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]=Path=/company/**
+    depends_on:
+      postgres_catering_client:
+        condition: service_healthy
+      postgres_catering_company:
+        condition: service_healthy
+      catering-company-service:
+        condition: service_started
+      catering-client-service:
+        condition: service_started
+    networks:
+      - app-network
+
+  catering-company-service:
+    container_name: cateringCompany
+    build:
+      context: ./cateringCompanyService
+      dockerfile: Dockerfile
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_catering_company:5432/${POSTGRES_COMPANY_DB}'
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_COMPANY_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+    depends_on:
+      postgres_catering_company:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  catering-client-service:
+    container_name: clientCompany
+    build:
+      context: ./cateringClientService
+      dockerfile: Dockerfile
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_catering_client:5432/${POSTGRES_CLIENT_DB}'
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_CLIENT_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+    depends_on:
+      postgres_catering_client:
+        condition: service_healthy
+    networks:
+      - app-network
