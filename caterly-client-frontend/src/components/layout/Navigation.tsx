@@ -1,19 +1,16 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
 import NavigationLink from "./NavigationLink";
+import styles from "./Navigation.module.css";
 
 export default function Navigation() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">Caterly</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavigationLink label="Strona główna" path="dashboard" />
-            <NavigationLink label="Posiłki" path="meals" />
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div className={styles.navigation}>
+      <div className={styles.navigationTitle}>
+        <h1>Caterly</h1>
+      </div>
+      <div className={styles.navigationMenu}>
+        <NavigationLink label="Strona główna" path="dashboard" />
+        <NavigationLink label="Posiłki" path="meals" />
+      </div>
+    </div>
   );
 }

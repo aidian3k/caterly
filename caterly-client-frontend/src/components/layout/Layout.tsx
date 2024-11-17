@@ -1,16 +1,14 @@
-import { Container, Stack } from "react-bootstrap";
 import Navigation from "./Navigation";
 import { Navigate, useOutlet } from "react-router-dom";
+import styles from "./Layout.module.css";
 
 export default function Layout() {
   const outlet = useOutlet();
 
   return (
-    <Container fluid="lg">
-      <Stack>
-        <Navigation />
-        {outlet ?? <Navigate to="dashboard" />}
-      </Stack>
-    </Container>
+    <div className={styles.wrapper}>
+      <Navigation />
+      {outlet ?? <Navigate to="dashboard" />}
+    </div>
   );
 }

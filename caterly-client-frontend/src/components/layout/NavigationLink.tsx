@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Nav } from "react-bootstrap";
+import { CSSProperties } from "react";
+import styles from "./NavigationLink.module.css";
 
 interface NavigationLinkProps {
   label: string;
@@ -8,10 +9,14 @@ interface NavigationLinkProps {
 
 export default function NavigationLink({ label, path }: NavigationLinkProps) {
   const location = useLocation();
+  const isActive = location.pathname.includes(path);
+  const linkStyle: CSSProperties = isActive ? { fontWeight: 700 } : {};
 
   return (
-    <Nav.Link as={NavLink} to={path} active={location.pathname.includes(path)}>
-      {label}
-    </Nav.Link>
+    <div className={styles.navigationItem}>
+      <NavLink style={linkStyle} to={path}>
+        {label}
+      </NavLink>
+    </div>
   );
 }
