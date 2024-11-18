@@ -1,0 +1,8 @@
+.navigationItem {
+    padding: 5px;
+}
+
+.navigationItem > a {
+    color: black;
+    text-decoration: none;
+}

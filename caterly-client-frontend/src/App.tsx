@@ -1,26 +1,43 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+
+const tryAuthenticate = async () => {
+  // TODO: Check if user is already logged in after opening the app
+  return null;
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <p>Logowanie</p>,
+    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
+  },
+  {
+    path: "/register",
+    element: <p>Rejestracja</p>,
+    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    loader: tryAuthenticate, // TODO: shouldn't allow unauthenticated users
+    children: [
+      {
+        path: "dashboard",
+        element: <p>Strona główna</p>,
+      },
+      {
+        path: "meals",
+        element: <p>Lista posiłków</p>,
+      },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
