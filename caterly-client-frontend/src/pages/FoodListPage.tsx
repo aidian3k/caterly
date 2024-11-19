@@ -36,24 +36,27 @@ export default function FoodListPage() {
       });
   }, []);
 
-  if (loading) {
-    return <p>Ładowanie...</p>;
-  }
-
   return (
     <div className={styles.foodListContainer}>
-      {meals.length === 0 ? (
-        <p>Brak posiłków</p>
+      <h2>Lista posiłków</h2>
+      {loading ? (
+        <p>Ładowanie...</p>
       ) : (
         <>
-          {meals.map((el) => (
-            <FoodCard
-              key={el.id}
-              price={el.price}
-              typeOfFood={el.typeOfFood}
-              city={el.cateringEntity.city}
-            />
-          ))}
+          {meals.length === 0 ? (
+            <p>Brak posiłków</p>
+          ) : (
+            <>
+              {meals.map((el) => (
+                <FoodCard
+                  key={el.id}
+                  price={el.price}
+                  typeOfFood={el.typeOfFood}
+                  city={el.cateringEntity.city}
+                />
+              ))}
+            </>
+          )}
         </>
       )}
     </div>
