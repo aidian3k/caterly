@@ -11,18 +11,6 @@ export default function FoodListPage() {
   useEffect(() => {
     setLoading(true);
 
-    setMeals([
-      {
-        typeOfFood: "Pies",
-        price: "12,35zł",
-        id: 1,
-        cateringEntity: {
-          city: "Worsaw",
-          id: 2,
-        },
-      },
-    ]);
-
     apiClient
       .get<CateringFoodEntity[]>(`/meals`)
       .then((res) => {
