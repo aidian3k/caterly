@@ -11,6 +11,10 @@ const Cart = () => {
         setLoading(false);
     }, []);
 
+    const calculateTotalPrice = (): number => {
+        return displayedCart.reduce((total, item) => total + item.quantity * item.price, 0);
+    };
+
     if (loading) {
         return <div>Ładowanie koszyka...</div>;
     }
@@ -21,22 +25,27 @@ const Cart = () => {
             {displayedCart.length === 0 ? (
                 <p>Twój koszyk jest pusty</p>
             ) : (
-                <ul>
-                    {displayedCart.map((item) => (
-                        <li key={item.id}>
-                            {item.name} - {item.quantity} x {item.price} PLN = {item.quantity * item.price} PLN
-                            <button
-                                onClick={() => {
-                                    removeItemFromCart(item.id);
-                                    const storedCart = getCart();
-                                    setDisplayedCart(storedCart);
-                                }}
-                            >
-                                Usuń
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+                <div>
+                    <ul>
+                        {displayedCart.map((item) => (
+                            <li key={item.id}>
+                                {item.name} - {item.quantity} x {item.price} PLN = {item.quantity * item.price} PLN
+                                <button
+                                    onClick={() => {
+                                        removeItemFromCart(item.id);
+                                        const storedCart = getCart();
+                                        setDisplayedCart(storedCart);
+                                    }}
+                                >
+                                    Usuń
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                    <p>
+                        <strong>Łączna cena: {calculateTotalPrice()} PLN</strong>
+                    </p>
+                </div>
             )}
         </div>
     );
