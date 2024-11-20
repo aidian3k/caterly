@@ -2,7 +2,6 @@ package org.caterly.cateringcompanyservice.offer.domain;
 
 import org.caterly.cateringcompanyservice.company.domain.CateringCompanyEntity;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
-import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequest;
 import org.caterly.cateringcompanyservice.offer.mapper.OfferMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,6 @@ class CateringOfferServiceImplTest {
     private CateringCompanyEntity company1;
     private CateringFoodEntity offer1;
     private CateringFoodEntity offer2;
-    private CateringOfferRequest request;
     private CateringOfferDTO offerDTO1;
     private CateringOfferDTO offerDTO2;
 
@@ -64,9 +62,6 @@ class CateringOfferServiceImplTest {
         offerDTO2.setId(OFFER_DTO_2_ID);
         offerDTO2.setPrice(OFFER_2_PRICE);
         offerDTO2.setTypeOfFood("Burger");
-
-        request = new CateringOfferRequest();
-        request.setCateringCompanyId(COMPANY_1_ID);
     }
 
     @Test
@@ -80,7 +75,7 @@ class CateringOfferServiceImplTest {
 
         // When
         List<CateringOfferDTO> result = cateringOfferService
-                .getAllOffers(request);
+                .getAllOffers(COMPANY_1_ID);
 
         // Then
         assertNotNull(result);
@@ -102,7 +97,7 @@ class CateringOfferServiceImplTest {
 
         // When
         List<CateringOfferDTO> result = cateringOfferService
-                .getAllOffers(request);
+                .getAllOffers(COMPANY_1_ID);
 
         // Then
         assertNotNull(result);

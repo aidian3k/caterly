@@ -2,7 +2,6 @@ package org.caterly.cateringcompanyservice.offer.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
-import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequest;
 import org.caterly.cateringcompanyservice.offer.application.CateringOfferService;
 import org.caterly.cateringcompanyservice.offer.mapper.OfferMapper;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ public final class CateringOfferServiceImpl implements CateringOfferService {
 
     @Override
     public List<CateringOfferDTO> getAllOffers(
-        final CateringOfferRequest request
+        final long cateringCompanyId
     ) {
-        return cateringOfferRepository.findAllByCompanyId(
-            request.getCateringCompanyId()).stream()
+        return cateringOfferRepository.findAllByCompanyId(cateringCompanyId)
+                .stream()
                 .map(offerMapper::toCateringOfferDTO).toList();
     }
 }
