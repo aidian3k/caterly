@@ -32,9 +32,9 @@ public final class CateringFoodEntity {
 
     private String typeOfFood;
 
-    private Byte[] picture;
+    private byte[] picture;
 
-    public Byte[] getPicture() {
+    public byte[] getPicture() {
         return picture.clone();
     }
 
