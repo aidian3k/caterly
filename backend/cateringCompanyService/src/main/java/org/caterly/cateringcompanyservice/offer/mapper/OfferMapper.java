@@ -24,7 +24,7 @@ public abstract class OfferMapper {
     public abstract CateringFoodEntity toCateringFoodEntity(
             CateringOfferRequestDTO cateringOfferRequestDTO
     );
-    
+
     public final CateringCompanyEntity resolveCateringCompanyEntity(
             final Long companyId
     ) {
