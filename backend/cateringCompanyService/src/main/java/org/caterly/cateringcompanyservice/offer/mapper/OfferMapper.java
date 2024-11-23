@@ -15,19 +15,22 @@ public abstract class OfferMapper {
     @Autowired
     private CateringCompanyRepository cateringCompanyRepository;
 
+    public abstract CateringOfferDTO toCateringOfferDTO(
+            CateringFoodEntity cateringFoodEntity
+    );
 
-    public final CateringCompanyEntity resolveCateringCompanyEntity(final Long companyId) {
+    @Mapping(target = "company", source = "companyId")
+    @Mapping(target = "id", ignore = true)
+    public abstract CateringFoodEntity toCateringFoodEntity(
+            CateringOfferRequestDTO cateringOfferRequestDTO
+    );
+    
+    public final CateringCompanyEntity resolveCateringCompanyEntity(
+            final Long companyId
+    ) {
         if (companyId == null) {
             return null;
         }
         return cateringCompanyRepository.getById(companyId);
     }
-
-    public abstract CateringOfferDTO
-                    toCateringOfferDTO(CateringFoodEntity cateringFoodEntity);
-
-    @Mapping(target = "company", source = "companyId")
-    @Mapping(target = "id", ignore = true)
-    public abstract CateringFoodEntity
-                    toCateringFoodEntity(CateringOfferRequestDTO cateringOfferRequestDTO);
 }
