@@ -31,6 +31,7 @@ class CateringOfferRepositoryTest {
         offer1.setCompany(company);
         offer1.setPrice(offer1Price);
         offer1.setTypeOfFood("Pizza");
+        offer1.setPicture(new byte[] { 0x00, 0x56, 0x24, -0x61 });
         entityManager.persist(offer1);
 
         final double offer2Price = 10.99;
@@ -38,6 +39,7 @@ class CateringOfferRepositoryTest {
         offer2.setCompany(company);
         offer2.setPrice(offer2Price);
         offer2.setTypeOfFood("Burger");
+        offer2.setPicture(new byte[] { 0x26, -0x12, -0x5F, 0x7F });
         entityManager.persist(offer2);
 
         // Another company with a different offer
@@ -50,6 +52,7 @@ class CateringOfferRepositoryTest {
         otherOffer.setCompany(otherCompany);
         otherOffer.setPrice(otherOfferPrice);
         otherOffer.setTypeOfFood("Sushi");
+        otherOffer.setPicture(new byte[] { 0x44, -0x65, -0x4A, 0x2E });
         entityManager.persist(otherOffer);
 
         // Flush all changes to the database

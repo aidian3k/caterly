@@ -2,6 +2,7 @@ package org.caterly.cateringcompanyservice.offer.domain;
 
 import org.caterly.cateringcompanyservice.company.domain.CateringCompanyEntity;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
+import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequestDTO;
 import org.caterly.cateringcompanyservice.offer.mapper.OfferMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,7 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -49,18 +48,20 @@ class CateringOfferServiceImplTest {
         company1 = new CateringCompanyEntity(
                 COMPANY_1_ID, "San Francisco", List.of());
         offer1 = new CateringFoodEntity(
-                OFFER_1_ID, OFFER_1_PRICE, "Pizza", company1);
+                OFFER_1_ID, OFFER_1_PRICE, "Pizza", new byte[] { 0x00, 0x56, 0x24, -0x61 }, company1);
         offer2 = new CateringFoodEntity(
-                OFFER_2_ID, OFFER_2_PRICE, "Burger", company1);
+                OFFER_2_ID, OFFER_2_PRICE, "Burger", new byte[] { 0x26, -0x12, -0x5F, 0x7F }, company1);
 
         offerDTO1 = new CateringOfferDTO();
         offerDTO1.setId(OFFER_DTO_1_ID);
         offerDTO1.setPrice(OFFER_1_PRICE);
+        offerDTO1.setPicture(new byte[] { 0x00, 0x56, 0x24, -0x61 });
         offerDTO1.setTypeOfFood("Pizza");
 
         offerDTO2 = new CateringOfferDTO();
         offerDTO2.setId(OFFER_DTO_2_ID);
         offerDTO2.setPrice(OFFER_2_PRICE);
+        offerDTO2.setPicture(new byte[] { 0x26, -0x12, -0x5F, 0x7F });
         offerDTO2.setTypeOfFood("Burger");
     }
 
@@ -82,6 +83,8 @@ class CateringOfferServiceImplTest {
         assertEquals(2, result.size());
         assertEquals("Pizza", result.get(0).getTypeOfFood());
         assertEquals("Burger", result.get(1).getTypeOfFood());
+        assertArrayEquals(new byte[] { 0x00, 0x56, 0x24, -0x61 }, result.get(0).getPicture());
+        assertArrayEquals(new byte[] { 0x26, -0x12, -0x5F, 0x7F }, result.get(1).getPicture());
 
         // Verify interactions
         verify(cateringOfferRepository).findAllByCompanyId(1L);
