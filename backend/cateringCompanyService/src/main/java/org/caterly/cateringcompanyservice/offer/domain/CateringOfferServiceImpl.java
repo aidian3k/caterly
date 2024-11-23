@@ -26,7 +26,7 @@ public final class CateringOfferServiceImpl implements CateringOfferService {
     }
 
     @Override
-    public CateringOfferDTO add(CateringOfferRequestDTO request) {
+    public CateringOfferDTO add(final CateringOfferRequestDTO request) {
         CateringFoodEntity entity = offerMapper.toCateringFoodEntity(request);
         cateringOfferRepository.saveAndFlush(entity);
         return offerMapper.toCateringOfferDTO(entity);

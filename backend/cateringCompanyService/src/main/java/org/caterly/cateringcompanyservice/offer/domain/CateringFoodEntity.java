@@ -1,8 +1,6 @@
 package org.caterly.cateringcompanyservice.offer.domain;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
