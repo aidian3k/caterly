@@ -7,5 +7,9 @@ public class CateringOfferDTO {
     private Long id;
     private Double price;
     private String typeOfFood;
-    private byte[] picture;
+    private Byte[] picture;
+
+    public final Byte[] getPicture() {
+        return picture.clone();
+    }
 }

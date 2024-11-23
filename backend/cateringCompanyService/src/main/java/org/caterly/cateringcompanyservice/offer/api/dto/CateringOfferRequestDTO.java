@@ -6,6 +6,10 @@ import lombok.Data;
 public class CateringOfferRequestDTO {
     private Double price;
     private String typeOfFood;
-    private byte[] picture;
-    private long companyId;
+    private Byte[] picture;
+    private Long companyId;
+
+    public final Byte[] getPicture() {
+        return picture.clone();
+    }
 }
