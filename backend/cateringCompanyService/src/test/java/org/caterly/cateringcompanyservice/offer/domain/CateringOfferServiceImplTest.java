@@ -2,7 +2,6 @@ package org.caterly.cateringcompanyservice.offer.domain;
 
 import org.caterly.cateringcompanyservice.company.domain.CateringCompanyEntity;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
-import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequestDTO;
 import org.caterly.cateringcompanyservice.offer.mapper.OfferMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,21 +9,30 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.List;
+import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class CateringOfferServiceImplTest {
+    private static final int PICTURE_ARRAY_SIZE = 5;
 
     private static final double OFFER_1_PRICE = 12.99;
+    private static final byte[] OFFER_1_PICTURE = new byte[PICTURE_ARRAY_SIZE];
     private static final double OFFER_2_PRICE = 10.99;
+    private static final byte[] OFFER_2_PICTURE = new byte[PICTURE_ARRAY_SIZE];
     private static final long COMPANY_1_ID = 1L;
     private static final long OFFER_1_ID = 1L;
     private static final long OFFER_2_ID = 2L;
     private static final long OFFER_DTO_1_ID = 1L;
     private static final long OFFER_DTO_2_ID = 2L;
+
+    private final Random random = new Random();
 
     @Mock
     private CateringOfferRepository cateringOfferRepository;
@@ -45,23 +53,26 @@ class CateringOfferServiceImplTest {
     void setUp() {
         openMocks(this);
 
+        random.nextBytes(OFFER_1_PICTURE);
+        random.nextBytes(OFFER_2_PICTURE);
+
         company1 = new CateringCompanyEntity(
                 COMPANY_1_ID, "San Francisco", List.of());
         offer1 = new CateringFoodEntity(
-                OFFER_1_ID, OFFER_1_PRICE, "Pizza", new byte[] { 0x00, 0x56, 0x24, -0x61 }, company1);
+                OFFER_1_ID, OFFER_1_PRICE, "Pizza", OFFER_1_PICTURE, company1);
         offer2 = new CateringFoodEntity(
-                OFFER_2_ID, OFFER_2_PRICE, "Burger", new byte[] { 0x26, -0x12, -0x5F, 0x7F }, company1);
+                OFFER_2_ID, OFFER_2_PRICE, "Burger", OFFER_2_PICTURE, company1);
 
         offerDTO1 = new CateringOfferDTO();
         offerDTO1.setId(OFFER_DTO_1_ID);
         offerDTO1.setPrice(OFFER_1_PRICE);
-        offerDTO1.setPicture(new byte[] { 0x00, 0x56, 0x24, -0x61 });
+        offerDTO1.setPicture(OFFER_1_PICTURE);
         offerDTO1.setTypeOfFood("Pizza");
 
         offerDTO2 = new CateringOfferDTO();
         offerDTO2.setId(OFFER_DTO_2_ID);
         offerDTO2.setPrice(OFFER_2_PRICE);
-        offerDTO2.setPicture(new byte[] { 0x26, -0x12, -0x5F, 0x7F });
+        offerDTO2.setPicture(OFFER_2_PICTURE);
         offerDTO2.setTypeOfFood("Burger");
     }
 
@@ -83,8 +94,8 @@ class CateringOfferServiceImplTest {
         assertEquals(2, result.size());
         assertEquals("Pizza", result.get(0).getTypeOfFood());
         assertEquals("Burger", result.get(1).getTypeOfFood());
-        assertArrayEquals(new byte[] { 0x00, 0x56, 0x24, -0x61 }, result.get(0).getPicture());
-        assertArrayEquals(new byte[] { 0x26, -0x12, -0x5F, 0x7F }, result.get(1).getPicture());
+        assertArrayEquals(OFFER_1_PICTURE, result.get(0).getPicture());
+        assertArrayEquals(OFFER_2_PICTURE, result.get(1).getPicture());
 
         // Verify interactions
         verify(cateringOfferRepository).findAllByCompanyId(1L);
