@@ -24,7 +24,7 @@ const Cart = () => {
 
   return (
     <div>
-      <h1>Twój koszyk</h1>
+      <h1 className="font-bold text-2xl mb-3">Twój koszyk</h1>
       {displayedCart.length === 0 ? (
         <p>Twój koszyk jest pusty</p>
       ) : (
