@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
 import "./RegistrationForm.css";
+
+// const AuthenticationService = {
+//   register: async (data: any) => {
+//     console.log("Wysyłanie danych do API:", data);
+//     // Tu powinien znajdować się kod wysyłający dane na backend
+//     // Na razie tylko symulacja odpowiedzi:
+//     return new Promise((resolve) =>
+//       setTimeout(() => resolve({ status: 200, message: "Success" }), 1000),
+//     );
+//   },
+// };
 
 interface RegistrationFormValues {
   username: string;
@@ -16,25 +28,69 @@ const RegistrationForm: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+
+  const validatePassword = (password: string): string | null => {
+    if (
+      password.length < 10 ||
+      !/[A-Z]/.test(password) ||
+      !/[a-z]/.test(password) ||
+      !/\d/.test(password) ||
+      !/[!@#$%^&*(),.?":{}|<>]/.test(password)
+    ) {
+      return "Hasło musi mieć co najmniej 10 znaków, w tym małą literę, dużą literę, cyfrę i znak specjalny.";
+    }
+    return null;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormValues((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    setErrorMessage(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitted(true);
+
     if (formValues.password !== formValues.confirmPassword) {
-      alert("Hasła nie pasują!");
+      setErrorMessage("Hasła muszą być takie same.");
       return;
     }
-    alert("Rejestracja zakończona sukcesem!");
-    console.log("Form data:", formValues);
+
+    const passwordValidationError = validatePassword(formValues.password);
+    if (passwordValidationError) {
+      setErrorMessage(passwordValidationError);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(formValues.password, 10);
+    const userData = {
+      username: formValues.username,
+      email: formValues.email,
+      password: hashedPassword,
+    };
+
+    // try {
+    //   const response = await AuthenticationService.register(userData);
+    //
+    //   if (response.status === 200) {
+    //     alert("Rejestracja zakończona sukcesem!");
+    //     navigate("/dashboard");
+    //   } else {
+    //     setErrorMessage("Rejestracja nie powiodła się. Spróbuj ponownie.");
+    //   }
+    // } catch (error) {
+    //   console.error("Błąd podczas rejestracji:", error);
+    //   setErrorMessage("Wystąpił błąd. Spróbuj ponownie później.");
+    // }
   };
 
   const handleCancel = () => {
@@ -86,7 +142,13 @@ const RegistrationForm: React.FC = () => {
             name="password"
             value={formValues.password}
             onChange={handleChange}
-            className="input-field"
+            className={`input-field ${
+              isSubmitted &&
+              errorMessage &&
+              formValues.password === formValues.confirmPassword
+                ? "input-error"
+                : ""
+            }`}
             required
           />
         </div>
@@ -101,10 +163,18 @@ const RegistrationForm: React.FC = () => {
             name="confirmPassword"
             value={formValues.confirmPassword}
             onChange={handleChange}
-            className="input-field"
+            className={`input-field ${
+              isSubmitted && errorMessage === "Hasła muszą być takie same."
+                ? "input-error"
+                : ""
+            }`}
             required
           />
         </div>
+
+        {isSubmitted && errorMessage && (
+          <p className="error-message">{errorMessage}</p>
+        )}
 
         <div className="button-group">
           <button type="submit" className="submit-button">

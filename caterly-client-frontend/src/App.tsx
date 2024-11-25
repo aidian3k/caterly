@@ -3,6 +3,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Cart from "./components/cart/Cart";
+import RegistrationForm from "./components/registration/RegistrationForm";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <p>Rejestracja</p>,
+    element: <RegistrationForm />,
     loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
   },
   {

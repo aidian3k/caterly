@@ -11,6 +11,7 @@ export default function Navigation() {
         <NavigationLink label="Strona główna" path="dashboard" />
         <NavigationLink label="Posiłki" path="meals" />
         <NavigationLink label="Koszyk" path="cart" />
+        <NavigationLink label="Rejestracja" path="/register" />
       </div>
     </div>
   );
