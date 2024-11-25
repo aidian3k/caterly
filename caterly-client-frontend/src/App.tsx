@@ -1,8 +1,10 @@
 import React from "react";
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import FoodListPage from "./pages/FoodListPage";
 import Cart from "./components/cart/Cart";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "meals",
-        element: <p>Lista posiłków</p>,
+        element: <FoodListPage />,
       },
       {
         path: "cart",
@@ -42,7 +44,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
