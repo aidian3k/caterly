@@ -2,7 +2,7 @@ import NavigationLink from "./NavigationLink";
 
 export default function Navigation() {
   return (
-    <nav className="bg-blue-300 p-4 flex-row flex gap-5 w-full drop-shadow-md items-center">
+    <nav className="bg-blue-300 p-4 flex-row flex gap-5 w-full drop-shadow-md items-center mb-4">
       <div>
         <h1 className="font-bold text-2xl">Caterly</h1>
       </div>
