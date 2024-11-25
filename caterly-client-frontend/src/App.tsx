@@ -3,6 +3,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import FoodListPage from "./pages/FoodListPage";
+import Cart from "./components/cart/Cart";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "meals",
         element: <FoodListPage />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },

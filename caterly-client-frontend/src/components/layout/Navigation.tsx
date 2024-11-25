@@ -10,6 +10,7 @@ export default function Navigation() {
       <div className={styles.navigationMenu}>
         <NavigationLink label="Strona główna" path="dashboard" />
         <NavigationLink label="Lista posiłków" path="meals" />
+        <NavigationLink label="Koszyk" path="cart" />
       </div>
     </div>
   );
