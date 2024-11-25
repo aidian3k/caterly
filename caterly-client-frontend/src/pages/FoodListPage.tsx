@@ -1,35 +1,20 @@
-import { useEffect, useState } from "react";
-import CateringFoodEntity from "../interfaces/CateringFoodEntity";
-import apiClient from "../lib/axios";
 import FoodCard from "../components/food-list/FoodCard";
 import styles from "./FoodListPage.module.css";
+import useMeals from "../queries/meals.query";
 
 export default function FoodListPage() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [meals, setMeals] = useState<CateringFoodEntity[]>([]);
+  const { data: meals, error, isError, isPending } = useMeals();
 
-  useEffect(() => {
-    setLoading(true);
-
-    apiClient
-      .get<CateringFoodEntity[]>(`/meals`)
-      .then((res) => {
-        setMeals(res.data);
-      })
-      .finally(() => {
-        setLoading(false);
-      })
-      .catch(() => {
-        console.log("Wystąpił błąd");
-      });
-  }, []);
+  if (isError) {
+    console.log(error);
+  }
 
   return (
     <div className={styles.foodListContainer}>
       <h2>Lista posiłków</h2>
-      {loading ? (
-        <p>Ładowanie...</p>
-      ) : (
+      {isPending && <p>Ładowanie...</p>}
+      {isError && <p>Wystąpił błąd!</p>}
+      {meals && (
         <>
           {meals.length === 0 ? (
             <p>Brak posiłków</p>
