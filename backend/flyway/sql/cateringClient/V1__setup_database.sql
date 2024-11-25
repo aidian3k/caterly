@@ -22,3 +22,9 @@ CREATE TABLE IF NOT EXISTS orders (
     -- Enum-like constraint for Order State
     order_state VARCHAR(50) CHECK (order_state IN ('PURCHASED', 'SHIPPED', 'FINISHED'))
 );
+
+
+-- V1__Add_password_column_to_client.sql
+ALTER TABLE client ADD COLUMN password VARCHAR(255);
+-- V1__Add_role_column_to_client.sql
+ALTER TABLE client ADD COLUMN role VARCHAR(255);
