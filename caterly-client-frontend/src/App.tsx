@@ -5,6 +5,7 @@ import FoodListPage from "./pages/FoodListPage";
 import Cart from "./components/cart/Cart";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
+import RegistrationForm from "./pages/registration/RegistrationForm";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <p>Rejestracja</p>,
+    element: <RegistrationForm />,
     loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
   },
   {

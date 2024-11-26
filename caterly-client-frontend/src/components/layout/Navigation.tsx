@@ -10,6 +10,7 @@ export default function Navigation() {
         <NavigationLink label="Strona główna" path="dashboard" />
         <NavigationLink label="Lista posiłków" path="meals" />
         <NavigationLink label="Koszyk" path="cart" />
+        <NavigationLink label="Rejestracja" path="/register" />
       </div>
     </nav>
   );
