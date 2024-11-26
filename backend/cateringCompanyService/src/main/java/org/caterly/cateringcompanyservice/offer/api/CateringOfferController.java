@@ -1,6 +1,5 @@
 package org.caterly.cateringcompanyservice.offer.api;
 
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
 import org.caterly.cateringcompanyservice.offer.application.CateringOfferService;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/offers")
+@RequestMapping("/company/api/offers")
 @RequiredArgsConstructor
 public final class CateringOfferController {
 
@@ -21,7 +20,7 @@ public final class CateringOfferController {
 
     @GetMapping("{cateringCompanyId}")
     public ResponseEntity<List<CateringOfferDTO>> getCateringOffers(
-        final @PathVariable @Positive long cateringCompanyId
+        final @PathVariable long cateringCompanyId
     ) {
         return ResponseEntity.ok(
             cateringOfferService.getAllOffers(cateringCompanyId)
