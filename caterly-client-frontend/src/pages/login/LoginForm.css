@@ -14,8 +14,8 @@
   width: 100%;
   max-width: 400px;
   display: flex;
-  flex-direction: column; /* Układ w kolumnie */
-  align-items: stretch; /* Dopasowanie szerokości elementów */
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .login-form-title {

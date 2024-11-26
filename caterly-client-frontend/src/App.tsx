@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import LoginForm from "./pages/login/LoginForm";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -11,7 +12,7 @@ const tryAuthenticate = async () => {
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <p>Logowanie</p>,
+    element: <LoginForm />,
     loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
   },
   {

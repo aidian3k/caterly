@@ -1,22 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
-import LoginFormData from "../../interfaces/LoginFormData";
+import AuthService from "../../services/AuthService";
 
-const AuthService = {
-  login: async (email: string, password: string): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === "test@example.com" && password === "Password123") {
-          resolve(true);
-        } else {
-          reject("Nieprawidłowy email lub hasło.");
-        }
-      }, 1000);
-    });
-  },
-};
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
   const [loginFormValues, setLoginFormValues] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -50,8 +43,7 @@ const LoginForm: React.FC = () => {
     try {
       setIsSubmitting(true);
       await AuthService.login(email, password);
-      console.log("Zalogowano pomyślnie");
-      alert("Logowanie powiodło się!");
+      navigate("/");
     } catch (error) {
       setPasswordError(error as string);
     } finally {
@@ -90,7 +82,6 @@ const LoginForm: React.FC = () => {
             {passwordError}
           </p>
         </div>
-
         <button
           type="submit"
           className="login-form-button"
