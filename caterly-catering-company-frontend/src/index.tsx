@@ -3,15 +3,43 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+<<<<<<< HEAD
 import './index.css';
+=======
+import {createBrowserRouter, RouterProvider } from "react-router-dom";
+import NewMealForm from "./Components/NewMealForm";
+import DeleteFoodView from "./DeleteFoodView";
+>>>>>>> ce72e7e (deleting meals first version)
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,  
 );
 
+<<<<<<< HEAD
 root.render(
   <React.StrictMode>
     <App />
+=======
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/catering-company",
+    element: <App />,
+  }, 
+  {
+    path: "/delete",
+    element: <DeleteFoodView />,
+  }
+]);
+
+root.render(
+  <React.StrictMode>
+    <NewMealForm />
+    <DeleteFoodView />
+>>>>>>> ce72e7e (deleting meals first version)
   </React.StrictMode>,
 );
 
