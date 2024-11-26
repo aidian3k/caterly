@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,7 +17,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class CateringOfferServiceImplTest {
-
     private static final double OFFER_1_PRICE = 12.99;
     private static final double OFFER_2_PRICE = 10.99;
     private static final long COMPANY_1_ID = 1L;
@@ -49,18 +47,20 @@ class CateringOfferServiceImplTest {
         company1 = new CateringCompanyEntity(
                 COMPANY_1_ID, "San Francisco", List.of());
         offer1 = new CateringFoodEntity(
-                OFFER_1_ID, OFFER_1_PRICE, "Pizza", company1);
+                OFFER_1_ID, OFFER_1_PRICE, "Pizza", "abcd", company1);
         offer2 = new CateringFoodEntity(
-                OFFER_2_ID, OFFER_2_PRICE, "Burger", company1);
+                OFFER_2_ID, OFFER_2_PRICE, "Burger", "dcba", company1);
 
         offerDTO1 = new CateringOfferDTO();
         offerDTO1.setId(OFFER_DTO_1_ID);
         offerDTO1.setPrice(OFFER_1_PRICE);
+        offerDTO1.setPicture("abcd");
         offerDTO1.setTypeOfFood("Pizza");
 
         offerDTO2 = new CateringOfferDTO();
         offerDTO2.setId(OFFER_DTO_2_ID);
         offerDTO2.setPrice(OFFER_2_PRICE);
+        offerDTO2.setPicture("dcba");
         offerDTO2.setTypeOfFood("Burger");
     }
 
@@ -82,6 +82,8 @@ class CateringOfferServiceImplTest {
         assertEquals(2, result.size());
         assertEquals("Pizza", result.get(0).getTypeOfFood());
         assertEquals("Burger", result.get(1).getTypeOfFood());
+        assertEquals("abcd", result.get(0).getPicture());
+        assertEquals("dcba", result.get(1).getPicture());
 
         // Verify interactions
         verify(cateringOfferRepository).findAllByCompanyId(1L);
