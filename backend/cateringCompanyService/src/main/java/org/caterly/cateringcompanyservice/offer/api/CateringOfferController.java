@@ -30,7 +30,7 @@ public final class CateringOfferController {
         );
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<CateringOfferDTO> postCateringOffer(
             final @RequestBody CateringOfferRequestDTO requestBody
     ) {

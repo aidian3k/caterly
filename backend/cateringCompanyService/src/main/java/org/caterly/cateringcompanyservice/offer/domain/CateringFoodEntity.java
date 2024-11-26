@@ -32,11 +32,7 @@ public final class CateringFoodEntity {
 
     private String typeOfFood;
 
-    private byte[] picture;
-
-    public byte[] getPicture() {
-        return picture.clone();
-    }
+    private String picture;
 
     @ManyToOne
     @JoinColumn(name = "catering_company_id", nullable = false)
