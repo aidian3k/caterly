@@ -1,28 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
+import RegistrationFormData from "../../interfaces/RegistrationFormData";
 import "./RegistrationForm.css";
 
 // const AuthenticationService = {
 //   register: async (data: any) => {
-//     console.log("Wysyłanie danych do API:", data);
-//     // Tu powinien znajdować się kod wysyłający dane na backend
-//     // Na razie tylko symulacja odpowiedzi:
 //     return new Promise((resolve) =>
 //       setTimeout(() => resolve({ status: 200, message: "Success" }), 1000),
 //     );
 //   },
 // };
 
-interface RegistrationFormValues {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const RegistrationForm: React.FC = () => {
-  const [formValues, setFormValues] = useState<RegistrationFormValues>({
+  const [formValues, setFormValues] = useState<RegistrationFormData>({
     username: "",
     email: "",
     password: "",
