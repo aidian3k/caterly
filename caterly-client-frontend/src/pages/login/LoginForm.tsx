@@ -29,23 +29,19 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { email, password } = loginFormValues;
-
     setPasswordError(null);
 
-    if (!validatePassword(password)) {
-      setPasswordError(
-        "Hasło musi mieć co najmniej 8 znaków, zawierać literę i cyfrę.",
-      );
+    if (!validatePassword(loginFormValues.password)) {
+      setPasswordError("Nieprawidłowy email lub hasło.");
       return;
     }
 
     try {
       setIsSubmitting(true);
-      await AuthService.login(email, password);
+      await AuthService.login(loginFormValues.email, loginFormValues.password);
       navigate("/");
-    } catch (error) {
-      setPasswordError(error as string);
+    } catch (error: any) {
+      setPasswordError(error.message || "Wystąpił nieoczekiwany błąd.");
     } finally {
       setIsSubmitting(false);
     }

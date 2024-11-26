@@ -7,9 +7,7 @@ const AuthService = {
       console.log("Zalogowano pomyślnie:", response.data);
     } catch (error: any) {
       if (error.response) {
-        throw new Error(
-          error.response.data.message || "Nieprawidłowy email lub hasło.",
-        );
+        throw new Error(error.message || "Nieprawidłowy email lub hasło.");
       }
       throw new Error(
         "Nie udało się połączyć z serwerem. Spróbuj ponownie później.",
