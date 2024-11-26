@@ -2,10 +2,13 @@ package org.caterly.cateringcompanyservice.offer.api;
 
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
+import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequestDTO;
 import org.caterly.cateringcompanyservice.offer.application.CateringOfferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +28,12 @@ public final class CateringOfferController {
         return ResponseEntity.ok(
             cateringOfferService.getAllOffers(cateringCompanyId)
         );
+    }
+
+    @PostMapping
+    public ResponseEntity<CateringOfferDTO> postCateringOffer(
+            final @RequestBody CateringOfferRequestDTO requestBody
+    ) {
+        return ResponseEntity.ok(cateringOfferService.add(requestBody));
     }
 }

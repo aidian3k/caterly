@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class CateringOfferRepositoryTest {
+    private static final int PICTURE_ARRAY_SIZE = 5;
 
     @Autowired
     private CateringOfferRepository cateringOfferRepository;
@@ -31,6 +32,7 @@ class CateringOfferRepositoryTest {
         offer1.setCompany(company);
         offer1.setPrice(offer1Price);
         offer1.setTypeOfFood("Pizza");
+        offer1.setPicture("abcd");
         entityManager.persist(offer1);
 
         final double offer2Price = 10.99;
@@ -38,6 +40,7 @@ class CateringOfferRepositoryTest {
         offer2.setCompany(company);
         offer2.setPrice(offer2Price);
         offer2.setTypeOfFood("Burger");
+        offer2.setPicture("dcba");
         entityManager.persist(offer2);
 
         // Another company with a different offer
@@ -50,6 +53,7 @@ class CateringOfferRepositoryTest {
         otherOffer.setCompany(otherCompany);
         otherOffer.setPrice(otherOfferPrice);
         otherOffer.setTypeOfFood("Sushi");
+        otherOffer.setPicture("xyz");
         entityManager.persist(otherOffer);
 
         // Flush all changes to the database
