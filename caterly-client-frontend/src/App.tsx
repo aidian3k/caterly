@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import LoginForm from "./pages/login/LoginForm";
 import FoodListPage from "./pages/FoodListPage";
 import Cart from "./components/cart/Cart";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ const tryAuthenticate = async () => {
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <p>Logowanie</p>,
+    element: <LoginForm />,
     loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
   },
   {
