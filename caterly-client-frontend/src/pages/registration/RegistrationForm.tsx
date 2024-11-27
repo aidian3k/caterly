@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import bcrypt from "bcryptjs";
 import RegistrationFormData from "../../interfaces/RegistrationFormData";
+import AuthService from "../../services/AuthService";
 import "./RegistrationForm.css";
-
-// const AuthenticationService = {
-//   register: async (data: any) => {
-//     return new Promise((resolve) =>
-//       setTimeout(() => resolve({ status: 200, message: "Success" }), 1000),
-//     );
-//   },
-// };
+import authService from "../../services/AuthService";
 
 const RegistrationForm: React.FC = () => {
   const [formValues, setFormValues] = useState<RegistrationFormData>({
-    username: "",
     email: "",
+    city: "",
     password: "",
     confirmPassword: "",
   });
@@ -62,26 +55,23 @@ const RegistrationForm: React.FC = () => {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(formValues.password, 10);
-    // const userData = {
-    //   username: formValues.username,
-    //   email: formValues.email,
-    //   password: hashedPassword,
-    // };
+    try {
+      const userData = {
+        email: formValues.email,
+        password: formValues.password,
+        city: formValues.city,
+      };
 
-    // try {
-    //   const response = await AuthenticationService.register(userData);
-    //
-    //   if (response.status === 200) {
-    //     alert("Rejestracja zakończona sukcesem!");
-    //     navigate("/dashboard");
-    //   } else {
-    //     setErrorMessage("Rejestracja nie powiodła się. Spróbuj ponownie.");
-    //   }
-    // } catch (error) {
-    //   console.error("Błąd podczas rejestracji:", error);
-    //   setErrorMessage("Wystąpił błąd. Spróbuj ponownie później.");
-    // }
+      // Wywołanie AuthService.register
+      await AuthService.register(userData);
+
+      console.log("Rejestracja zakończona sukcesem!");
+      navigate("/dashboard");
+    } catch (error: any) {
+      setErrorMessage(
+        error.message || "Rejestracja nie powiodła się. Spróbuj ponownie.",
+      );
+    }
   };
 
   const handleCancel = () => {
@@ -94,21 +84,6 @@ const RegistrationForm: React.FC = () => {
         <h2 className="registration-title">Rejestracja</h2>
 
         <div className="input-group">
-          <label className="input-label" htmlFor="username">
-            Nazwa użytkownika
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formValues.username}
-            onChange={handleChange}
-            className="input-field"
-            required
-          />
-        </div>
-
-        <div className="input-group">
           <label className="input-label" htmlFor="email">
             Email
           </label>
@@ -117,6 +92,19 @@ const RegistrationForm: React.FC = () => {
             id="email"
             name="email"
             value={formValues.email}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label className="input-label">Miasto</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={formValues.city}
             onChange={handleChange}
             className="input-field"
             required

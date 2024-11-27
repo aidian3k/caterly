@@ -1,6 +1,6 @@
 export default interface RegistrationFormData {
-  username: string;
   email: string;
+  city: string;
   password: string;
   confirmPassword: string;
 }
