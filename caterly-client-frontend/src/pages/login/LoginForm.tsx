@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import AuthService from "../../services/AuthService";
+import { validateEmail, validatePassword } from "../../utils/validation";
 
 interface LoginFormData {
   email: string;
@@ -25,6 +26,14 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError(null);
+
+    if (
+      !validatePassword(loginFormValues.password) ||
+      !validateEmail(loginFormValues.email)
+    ) {
+      setPasswordError("Nieprawidłowy email lub hasło.");
+      return;
+    }
 
     try {
       setIsSubmitting(true);
