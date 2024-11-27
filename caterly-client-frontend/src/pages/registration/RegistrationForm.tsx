@@ -75,7 +75,7 @@ const RegistrationForm: React.FC = () => {
   };
 
   const handleCancel = () => {
-    navigate("/dashboard");
+    navigate("/login"); // should be page for ones that havent logged in
   };
 
   return (
