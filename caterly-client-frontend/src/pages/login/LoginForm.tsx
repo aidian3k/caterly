@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import AuthService from "../../services/AuthService";
 
@@ -17,11 +17,6 @@ const LoginForm: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validatePassword = (password: string): boolean => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginFormValues({ ...loginFormValues, [name]: value });
@@ -30,11 +25,6 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError(null);
-
-    if (!validatePassword(loginFormValues.password)) {
-      setPasswordError("Nieprawidłowy email lub hasło.");
-      return;
-    }
 
     try {
       setIsSubmitting(true);
@@ -85,6 +75,12 @@ const LoginForm: React.FC = () => {
         >
           {isSubmitting ? "Logowanie..." : "Zaloguj się"}
         </button>
+        <p className="login-form-register">
+          Nie masz konta?{" "}
+          <Link to="/register" className="register-link">
+            Zarejestruj się
+          </Link>
+        </p>
       </form>
     </div>
   );
