@@ -8,29 +8,6 @@ interface OfferListProps {
     onDeleteOffer: (deleteRequest: DeleteFoodRequest) => Promise<void>;
 }
 
-const sampleOffers: CateringOfferDTO[] = [
-    {
-        id: 1,
-        price: 29.99,
-        typeOfFood: "Italian",
-    },
-    {
-        id: 2,
-        price: 19.99,
-        typeOfFood: "Mexican",
-    },
-    {
-        id: 3,
-        price: 24.99,
-        typeOfFood: "Chinese",
-    },
-    {
-        id: 4,
-        price: 34.99,
-        typeOfFood: "French",
-    },
-];
-
 const OffersList: React.FC<OfferListProps> = ({ offers, onDeleteOffer }) => {
 
     const handleDelete = async (id: number) => {
@@ -45,7 +22,7 @@ const OffersList: React.FC<OfferListProps> = ({ offers, onDeleteOffer }) => {
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-            {sampleOffers.map((offer) => (
+            {offers.map((offer) => (
                 <OfferItem key={offer.id} offer={offer} onDelete={handleDelete}/>
             ))}
         </div>
