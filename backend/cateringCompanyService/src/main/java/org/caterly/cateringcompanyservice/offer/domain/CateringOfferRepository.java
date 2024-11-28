@@ -12,4 +12,6 @@ interface CateringOfferRepository
     @Query(value = "SELECT * FROM catering_food_entity "
             + "WHERE catering_company_id = :companyId", nativeQuery = true)
     List<CateringFoodEntity> findAllByCompanyId(Long companyId);
+
+    void deleteByCompanyIdAndId(Long companyId, Long foodId);
 }

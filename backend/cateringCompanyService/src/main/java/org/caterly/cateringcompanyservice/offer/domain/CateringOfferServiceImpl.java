@@ -32,4 +32,10 @@ public final class CateringOfferServiceImpl implements CateringOfferService {
         );
         return offerMapper.toCateringOfferDTO(entity);
     }
+
+    @Override
+    public void delete(final long cateringCompanyId, final long foodId) {
+        cateringOfferRepository.deleteByCompanyIdAndId(
+                cateringCompanyId, foodId);
+    }
 }
