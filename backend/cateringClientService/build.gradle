@@ -49,6 +49,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'com.h2database:h2'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
 
 dependencyManagement {
@@ -75,6 +76,7 @@ tasks.withType(SpotBugsTask).configureEach {
 checkstyle {
     configFile = file('checkstyle.xml')
 }
+
 
 tasks.withType(Checkstyle).configureEach {
     reports {
