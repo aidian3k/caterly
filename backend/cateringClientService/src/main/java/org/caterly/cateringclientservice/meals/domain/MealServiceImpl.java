@@ -13,18 +13,25 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MealServiceImpl implements MealService {
+public final class MealServiceImpl implements MealService {
 
     private final MealRepository mealRepository;
     private final MealMapper mealMapper;
     private final CompanyServiceClient companyServiceClient;
 
+    /**
+     * Retrieves all meals, maps them to DTOs,
+     * and enriches them with catering company data.
+     *
+     * @return a list of MealDTO objects containing meal details
+     */
     @Override
     public List<MealDTO> getAllMeals() {
         return mealRepository.findAll().stream()
                 .map(meal -> {
                     MealDTO mealDTO = mealMapper.toDto(meal);
-                    CateringCompanyDTO companyDTO = companyServiceClient.getCateringCompanyById(meal.getCateringCompanyId());
+                    CateringCompanyDTO companyDTO = companyServiceClient
+                        .getCateringCompanyById(meal.getCateringCompanyId());
                     mealDTO.setCateringEntity(companyDTO);
                     return mealDTO;
                 })

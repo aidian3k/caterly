@@ -13,10 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/client/meals")
 @RequiredArgsConstructor
-public class MealsController {
+public final class MealsController {
 
     private final MealService mealService;
 
+    /**
+     * Retrieves a list of all available meals.
+     *
+     * @return ResponseEntity containing the list of MealDTO objects
+     */
     @GetMapping
     public ResponseEntity<List<MealDTO>> getMeals() {
         return ResponseEntity.ok(mealService.getAllMeals());
