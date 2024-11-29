@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .logoutUrl("/client/auth/logout")
                         .logoutSuccessHandler(
                                 (request, response,
-                                  authentication) -> response
+                                 authentication) -> response
                                         .setStatus(HttpStatus.OK.value()))
                 );
         return http.build();
@@ -64,7 +64,7 @@ public class SecurityConfig {
     @Bean
     public static CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
@@ -73,4 +73,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
