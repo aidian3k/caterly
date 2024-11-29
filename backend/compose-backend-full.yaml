@@ -108,6 +108,8 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_catering_company:5432/${POSTGRES_COMPANY_DB}'
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_COMPANY_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
+    ports:
+      - '8072:8082'
     depends_on:
       postgres_catering_company:
         condition: service_healthy
@@ -123,6 +125,8 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_catering_client:5432/${POSTGRES_CLIENT_DB}'
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_CLIENT_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
+    ports:
+      - '8071:8081'
     depends_on:
       postgres_catering_client:
         condition: service_healthy
