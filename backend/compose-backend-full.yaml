@@ -83,9 +83,9 @@ services:
       - "8080:80"
     environment:
       - APIGATEWAY_CLIENT_PATH=/client/
-      - APIGATEWAY_CLIENT_URL=http://clientCompany:8081
+      - APIGATEWAY_CLIENT_URL=http://clientCompany:8080
       - APIGATEWAY_COMPANY_PATH=/company/
-      - APIGATEWAY_COMPANY_URL=http://cateringCompany:8082
+      - APIGATEWAY_COMPANY_URL=http://cateringCompany:8080
     depends_on:
       catering-company-service:
         condition: service_started
@@ -104,7 +104,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_COMPANY_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_COMPANY_PASSWORD}
     ports:
-      - '8072:8082'
+      - '8082:8080'
     depends_on:
       postgres_catering_company:
         condition: service_healthy
@@ -121,7 +121,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_CLIENT_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_CLIENT_PASSWORD}
     ports:
-      - '8071:8081'
+      - '8081:8080'
     depends_on:
       postgres_catering_client:
         condition: service_healthy
