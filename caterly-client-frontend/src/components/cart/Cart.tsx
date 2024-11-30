@@ -2,9 +2,12 @@ import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { removeCartItemAction } from "../../redux/actions/cartActions";
+import Button from "../buttons/Button";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const totalPrice = useMemo(
     () =>
@@ -18,6 +21,10 @@ const Cart = () => {
   return (
     <div>
       <h1 className="font-bold text-2xl mb-3">Twój koszyk</h1>
+      <Button
+        label="Dodaj posiłek od koszyka"
+        onClick={() => navigate("/meals")}
+      />
       {cart.size === 0 ? (
         <p>Twój koszyk jest pusty</p>
       ) : (
