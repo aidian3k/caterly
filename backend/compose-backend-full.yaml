@@ -73,25 +73,20 @@ services:
     networks:
       - app-network
 
-  gateway-service:
-    container_name: gatewayService
+  caterly-apigateway:
+    container_name: caterly-apigateway
+    image: caterly-apigateway
     build:
-      context: ./gatewayService
+      context: ./apigateway
       dockerfile: Dockerfile
     ports:
-      - '8080:8080'
+      - "8080:80"
     environment:
-      - SPRING_CLOUD_GATEWAY_ROUTES[0]_ID=cateringClientService
-      - SPRING_CLOUD_GATEWAY_ROUTES[0]_URI=http://clientCompany:8081
-      - SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]=Path=/client/**
-      - SPRING_CLOUD_GATEWAY_ROUTES[1]_ID=cateringCompanyService
-      - SPRING_CLOUD_GATEWAY_ROUTES[1]_URI=http://cateringCompany:8082
-      - SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]=Path=/company/**
+      - APIGATEWAY_CLIENT_PATH=/client/
+      - APIGATEWAY_CLIENT_URL=http://clientCompany:8081
+      - APIGATEWAY_COMPANY_PATH=/company/
+      - APIGATEWAY_COMPANY_URL=http://cateringCompany:8082
     depends_on:
-      postgres_catering_client:
-        condition: service_healthy
-      postgres_catering_company:
-        condition: service_healthy
       catering-company-service:
         condition: service_started
       catering-client-service:
