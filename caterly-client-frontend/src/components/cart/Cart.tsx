@@ -10,11 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const totalPrice = useMemo(
-    () =>
-      Array.from(cart.values()).reduce(
-        (total, item) => total + item.quantity * item.price,
-        0,
-      ),
+    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
     [cart],
   );
 
@@ -25,12 +21,12 @@ const Cart = () => {
         label="Dodaj posiłek od koszyka"
         onClick={() => navigate("/meals")}
       />
-      {cart.size === 0 ? (
+      {cart.length === 0 ? (
         <p>Twój koszyk jest pusty</p>
       ) : (
-        <div>
+        <div className="flex flex-col gap-2 w-full">
           <ul>
-            {Array.from(cart.values()).map((item) => (
+            {cart.map((item) => (
               <li key={item.id}>
                 {item.name} - {item.quantity} x {item.price} PLN ={" "}
                 {item.quantity * item.price} PLN
