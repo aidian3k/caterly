@@ -7,6 +7,8 @@ import Cart from "./components/cart/Cart";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import RegistrationForm from "./pages/registration/RegistrationForm";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const tryAuthenticate = async () => {
   // TODO: Check if user is already logged in after opening the app
@@ -48,7 +50,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </QueryClientProvider>
   );
 }
