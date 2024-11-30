@@ -3,8 +3,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import AuthService from "../../services/AuthService";
 import { validateEmail, validatePassword } from "../../utils/validation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { loginAction } from "../../redux/actions/authActions";
 
 interface LoginFormData {
   email: string;
@@ -13,6 +14,7 @@ interface LoginFormData {
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
@@ -43,6 +45,7 @@ const LoginForm: React.FC = () => {
     try {
       setIsSubmitting(true);
       await AuthService.login(loginFormValues.email, loginFormValues.password);
+      dispatch(loginAction());
       navigate("/");
     } catch (error: any) {
       setPasswordError(error.message || "Wystąpił nieoczekiwany błąd.");
