@@ -26,12 +26,12 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginForm />,
-    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
+    loader: tryAuthenticate,
   },
   {
     path: "/register",
     element: <RegistrationForm />,
-    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
+    loader: tryAuthenticate,
   },
   {
     path: "/",

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import RegistrationFormData from "../../interfaces/RegistrationFormData";
 import AuthService from "../../services/AuthService";
 import "./RegistrationForm.css";
 import authService from "../../services/AuthService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const RegistrationForm: React.FC = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
   const [formValues, setFormValues] = useState<RegistrationFormData>({
     email: "",
     city: "",
@@ -77,6 +82,10 @@ const RegistrationForm: React.FC = () => {
   const handleCancel = () => {
     navigate("/login"); // should be page for ones that havent logged in
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <div className="registration-container">
