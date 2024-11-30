@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import RegistrationFormData from "../../interfaces/RegistrationFormData";
 import AuthService from "../../services/AuthService";
 import "./RegistrationForm.css";
-import authService from "../../services/AuthService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
