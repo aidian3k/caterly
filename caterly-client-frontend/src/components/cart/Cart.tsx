@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { CartItem, getCart, removeItemFromCart } from "./CartApi";
+import { getCart, removeItemFromCart } from "./CartApi";
+import CartItem from "../../interfaces/CartItem";
 
 const Cart = () => {
   const [displayedCart, setDisplayedCart] = useState<CartItem[]>([]);

@@ -1,9 +1,4 @@
-export type CartItem = {
-  id: number;
-  name: string;
-  quantity: number;
-  price: number;
-};
+import CartItem from "../../interfaces/CartItem";
 
 /**Zwraca tablice z zawartością koszyka.*/
 export const getCart = (): CartItem[] => {
