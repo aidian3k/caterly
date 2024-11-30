@@ -25,35 +25,37 @@ const tryAuthenticate = async () => {
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginForm />,
-    loader: tryAuthenticate,
-  },
-  {
-    path: "/register",
-    element: <RegistrationForm />,
-    loader: tryAuthenticate,
-  },
-  {
-    path: "/",
-    element: (
-      <AuthorizeView>
-        <Layout />
-      </AuthorizeView>
-    ),
     loader: tryAuthenticate,
     children: [
       {
-        path: "dashboard",
-        element: <p>Strona główna</p>,
+        path: "/login",
+        element: <LoginForm />,
       },
       {
-        path: "meals",
-        element: <FoodListPage />,
+        path: "/register",
+        element: <RegistrationForm />,
       },
       {
-        path: "cart",
-        element: <Cart />,
+        path: "/",
+        element: (
+          <AuthorizeView>
+            <Layout />
+          </AuthorizeView>
+        ),
+        children: [
+          {
+            path: "dashboard",
+            element: <p>Strona główna</p>,
+          },
+          {
+            path: "meals",
+            element: <FoodListPage />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+        ],
       },
     ],
   },
