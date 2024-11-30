@@ -6,7 +6,7 @@ import {
   removeCartItemAction,
 } from "../actions/cartActions";
 
-interface CartState {
+export interface CartState {
   cart: CartItem[];
 }
 
