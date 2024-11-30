@@ -9,9 +9,16 @@ import { queryClient } from "./lib/queryClient";
 import RegistrationForm from "./pages/registration/RegistrationForm";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import apiClient from "./lib/axios";
+import { loginAction } from "./redux/actions/authActions";
 
 const tryAuthenticate = async () => {
-  // TODO: Check if user is already logged in after opening the app
+  try {
+    await apiClient.get("/auth/ac");
+    store.dispatch(loginAction());
+  } catch {
+    // empty
+  }
   return null;
 };
 
