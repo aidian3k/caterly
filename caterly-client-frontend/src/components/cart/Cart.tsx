@@ -4,6 +4,7 @@ import { RootState } from "../../redux/store";
 import { removeCartItemAction } from "../../redux/actions/cartActions";
 import Button from "../buttons/Button";
 import { useNavigate } from "react-router-dom";
+import CartItemCard from "./CartItemCard";
 
 const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -24,20 +25,16 @@ const Cart = () => {
       {cart.length === 0 ? (
         <p>Twój koszyk jest pusty</p>
       ) : (
-        <div className="flex flex-col gap-2 w-full">
-          <ul>
-            {cart.map((item) => (
-              <li key={item.id}>
-                {item.name} - {item.quantity} x {item.price} PLN ={" "}
-                {item.quantity * item.price} PLN
-                <button onClick={() => dispatch(removeCartItemAction(item.id))}>
-                  Usuń
-                </button>
-              </li>
-            ))}
-          </ul>
+        <div className="flex flex-col gap-4 w-full mt-3">
+          {cart.map((item) => (
+            <CartItemCard
+              key={item.id}
+              item={item}
+              onDelete={() => dispatch(removeCartItemAction(item.id))}
+            />
+          ))}
           <p>
-            <strong>Łączna cena: {totalPrice} PLN</strong>
+            <strong>Łączna cena: {totalPrice.toFixed(2)} PLN</strong>
           </p>
         </div>
       )}
