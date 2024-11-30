@@ -7,11 +7,11 @@ import {
 } from "../actions/cartActions";
 
 interface CartState {
-  cart: Map<number, CartItem>;
+  cart: CartItem[];
 }
 
 const initialState: CartState = {
-  cart: new Map<number, CartItem>(),
+  cart: [],
 };
 
 const cartReducer = createReducer(initialState, (builder) => {
@@ -19,31 +19,29 @@ const cartReducer = createReducer(initialState, (builder) => {
     .addCase(addItemToCartAction, (state, action) => {
       const newItem = action.payload;
 
-      if (state["cart"].has(newItem.id) || newItem.quantity <= 0) {
+      if (
+        state["cart"].find((el) => el.id === newItem.id) ||
+        newItem.quantity <= 0
+      ) {
         return;
       }
 
-      state["cart"].set(newItem.id, newItem);
+      state["cart"].push(newItem);
     })
     .addCase(editCartItemAction, (state, action) => {
       const updatedCartInfo = action.payload;
-      const cartItem = state["cart"].get(updatedCartInfo.id);
+      const cartItemIndex = state["cart"].findIndex(
+        (el) => el.id === updatedCartInfo.id,
+      );
 
-      if (!cartItem || updatedCartInfo.quantity <= 0) {
+      if (cartItemIndex === -1 || updatedCartInfo.quantity <= 0) {
         return;
       }
 
-      state["cart"].set(updatedCartInfo.id, {
-        ...cartItem,
-        quantity: updatedCartInfo.quantity,
-      });
+      state["cart"][cartItemIndex].quantity = updatedCartInfo.quantity;
     })
     .addCase(removeCartItemAction, (state, action) => {
-      if (!state["cart"].has(action.payload)) {
-        return;
-      }
-
-      state["cart"].delete(action.payload);
+      state["cart"] = state["cart"].filter((el) => el.id !== action.payload);
     });
 });
 
