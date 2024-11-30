@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import apiClient from "./lib/axios";
 import { loginAction } from "./redux/actions/authActions";
+import AuthorizeView from "./components/layout/AuthorizeView";
 
 const tryAuthenticate = async () => {
   try {
@@ -35,8 +36,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout />,
-    loader: tryAuthenticate, // TODO: shouldn't allow unauthenticated users
+    element: (
+      <AuthorizeView>
+        <Layout />
+      </AuthorizeView>
+    ),
+    loader: tryAuthenticate,
     children: [
       {
         path: "dashboard",
