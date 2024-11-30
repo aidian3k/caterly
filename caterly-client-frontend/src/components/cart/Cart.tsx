@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { removeCartItemAction } from "../../redux/actions/cartActions";
+import {
+  editCartItemAction,
+  removeCartItemAction,
+} from "../../redux/actions/cartActions";
 import Button from "../buttons/Button";
 import { useNavigate } from "react-router-dom";
 import CartItemCard from "./CartItemCard";
@@ -14,6 +17,9 @@ const Cart = () => {
     () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
     [cart],
   );
+  const handleUpdate = (id: number, quantity: number): void => {
+    dispatch(editCartItemAction({ id: id, quantity: quantity }));
+  };
 
   return (
     <div>
@@ -31,6 +37,7 @@ const Cart = () => {
               key={item.id}
               item={item}
               onDelete={() => dispatch(removeCartItemAction(item.id))}
+              onUpdate={handleUpdate}
             />
           ))}
           <p>
