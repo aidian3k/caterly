@@ -70,7 +70,7 @@ const RegistrationForm: React.FC = () => {
       await AuthService.register(userData);
 
       console.log("Rejestracja zakończona sukcesem!");
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error: any) {
       setErrorMessage(
         error.message || "Rejestracja nie powiodła się. Spróbuj ponownie.",
@@ -172,7 +172,7 @@ const RegistrationForm: React.FC = () => {
             className="cancel-button"
             onClick={handleCancel}
           >
-            Anuluj
+            Masz konto? Zaloguj się.
           </button>
         </div>
       </form>
