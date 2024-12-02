@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/client/auth")
@@ -61,5 +62,9 @@ public final class AuthController {
         }
     }
 
+    @GetMapping("/ac")
+    public ResponseEntity<Void> authCheck() {
+        return ResponseEntity.ok().build();
+    }
 }
 

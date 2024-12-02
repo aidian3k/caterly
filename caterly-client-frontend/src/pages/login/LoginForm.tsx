@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import AuthService from "../../services/AuthService";
 import { validateEmail, validatePassword } from "../../utils/validation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { loginAction } from "../../redux/actions/authActions";
 
 interface LoginFormData {
   email: string;
@@ -11,6 +14,10 @@ interface LoginFormData {
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
   const [loginFormValues, setLoginFormValues] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -38,6 +45,7 @@ const LoginForm: React.FC = () => {
     try {
       setIsSubmitting(true);
       await AuthService.login(loginFormValues.email, loginFormValues.password);
+      dispatch(loginAction());
       navigate("/");
     } catch (error: any) {
       setPasswordError(error.message || "Wystąpił nieoczekiwany błąd.");
@@ -45,6 +53,10 @@ const LoginForm: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <div className="login-form-container">
