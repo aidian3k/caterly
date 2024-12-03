@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../redux/store";
 import {
   editCartItemAction,
   removeCartItemAction,
-} from "../../redux/actions/cartActions";
-import Button from "../buttons/Button";
+} from "../redux/actions/cartActions";
+import Button from "../components/buttons/Button";
 import { useNavigate } from "react-router-dom";
-import CartItemCard from "./CartItemCard";
+import CartItemCard from "../components/cart/CartItemCard";
 
 const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
