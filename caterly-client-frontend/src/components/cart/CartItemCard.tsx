@@ -45,7 +45,7 @@ export default function CartItemCard({
           Łącznie: {(item.price * item.quantity).toFixed(2)} PLN
         </div>
         <Button label="Zapisz" onClick={handleUpdate} />
-        <Button label="Usuń" onClick={onDelete} />
+        <Button label="Usuń" variant="danger" onClick={onDelete} />
       </div>
     </div>
   );
