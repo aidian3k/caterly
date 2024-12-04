@@ -4,7 +4,7 @@ import axiosInstance from "../api/axiosConfig";
 import { useState } from "react";
 
 const CateringCompanyNewOfferForm = () => {
-    const [newMeal, setNewMeal] = useState({ name: "", description: "", price: "" });
+    const [newMeal, setNewMeal] = useState({ name: "", description: "", price: "", companyId: "1" });
     const [error, setError] = useState({message: ""});
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
