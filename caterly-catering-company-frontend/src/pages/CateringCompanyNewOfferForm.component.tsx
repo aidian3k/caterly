@@ -4,7 +4,7 @@ import axiosInstance from "../api/axiosConfig";
 import { useState } from "react";
 
 const CateringCompanyNewOfferForm = () => {
-    const [newMeal, setNewMeal] = useState({ name: "", description: "", price: "", companyId: "1" });
+    const [newMeal, setNewMeal] = useState({ typeOfFood: "", description: "", price: "", companyId: "1" });
     const [error, setError] = useState({message: ""});
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,10 +18,11 @@ const CateringCompanyNewOfferForm = () => {
 
         try {
             response = await axiosInstance.post(Endpoints.OFFER_ADD, newMeal);
-            if (response.status !== 201) {
+            if (response.status !== 200) {
                 throw new Error("Failed to create new meal");
             }
             console.log("New meal created successfully");
+            setError({ message: "" });
         } catch (er) {
             console.error("Error creating new meal:", er);
             setError({ message: response?.data?.message || "Failed to create new meal" });
@@ -33,12 +34,12 @@ const CateringCompanyNewOfferForm = () => {
             <form onSubmit={handleSubmit} className="mt-4">
                 <h2 className="text-lg">Dodaj nowy posiłek</h2>
                 <div className="mb-2">
-                    <label htmlFor="name" className="block">Nazwa:</label>
+                    <label htmlFor="typeOfFood" className="block">Nazwa:</label>
                     <input
                         type="text"
-                        id="name"
-                        name="name"
-                        value={newMeal.name}
+                        id="typeOfFood"
+                        name="typeOfFood"
+                        value={newMeal.typeOfFood}
                         onChange={handleInputChange}
                         className="border p-1 w-full"
                         required
