@@ -70,7 +70,7 @@ const CateringCompanyNewOfferForm = () => {
                     />
                 </div>
                 {
-                    error.message != "" && (
+                    error.message !== "" && (
                         <p>Wystapił błąd: {error.message}</p>
                     )
                 }
