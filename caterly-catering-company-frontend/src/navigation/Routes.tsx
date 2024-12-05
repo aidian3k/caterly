@@ -1,6 +1,7 @@
 import {createBrowserRouter} from "react-router-dom";
 import MainPage from "../pages/MainPage.component";
 import CateringCompanyOfferPage from "../pages/CateringCompanyOfferPage.component";
+import CateringCompanyNewOfferForm from "../pages/CateringCompanyNewOfferForm.component";
 import Layout from "../components/shared/layout/Layout.component";
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
                 path: "/offer",
                 element: <CateringCompanyOfferPage />,
             },
+            {
+                path: "/offer/new",
+                element: <CateringCompanyNewOfferForm />,
+            }
         ],
     },
 ]);

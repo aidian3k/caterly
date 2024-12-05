@@ -1,5 +1,6 @@
 export enum Endpoints {
     HOME = "/",
-    OFFER = "/company/api/offers/:cateringCompanyId",
-    FOOD = "/company/api/offers/:cateringCompanyId/:foodId",
+    OFFER = "/api/offers/:cateringCompanyId",
+    OFFER_ADD= "/api/offers",
+    FOOD = "/api/offers/:cateringCompanyId/:foodId",
 }
