@@ -1,20 +1,15 @@
-package org.caterly.cateringclientservice.meals.api.DTO;
+package org.caterly.cateringcompanyservice.offer.api.dto;
 
 import lombok.Data;
+import org.caterly.cateringcompanyservice.company.api.DTO.CateringCompanyDTO;
 
 @Data
-public class MealDTO {
+public final class CateringOfferWithCompanyDataDTO {
     private Long id;
-    private String typeOfFood;
     private Double price;
+    private String typeOfFood;
     private CateringCompanyDTO cateringEntity;
 
-    /**
-     * Returns a copy of the CateringCompanyDTO
-     * to protect internal representation.
-     *
-     * @return a copy of CateringCompanyDTO
-     */
     public CateringCompanyDTO getCateringEntity() {
         if (this.cateringEntity == null) {
             return null;
@@ -25,12 +20,6 @@ public class MealDTO {
         return copy;
     }
 
-    /**
-     * Sets a copy of the provided CateringCompanyDTO
-     * to protect internal representation.
-     *
-     * @param cateringEntity the CateringCompanyDTO to set
-     */
     public void setCateringEntity(final CateringCompanyDTO cateringEntity) {
         if (cateringEntity == null) {
             this.cateringEntity = null;

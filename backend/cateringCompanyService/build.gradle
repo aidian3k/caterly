@@ -83,3 +83,7 @@ tasks.withType(Checkstyle).configureEach {
         html.outputLocation.set(file("${buildDir}/reports/checkstyle/main.html"))
     }
 }
+
+test {
+    jvmArgs("-noverify", "-XX:+EnableDynamicAgentLoading", "-Djdk.instrument.traceUsage")
+}

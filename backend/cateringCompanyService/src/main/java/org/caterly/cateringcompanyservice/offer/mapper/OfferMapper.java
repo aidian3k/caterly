@@ -26,11 +26,13 @@ public abstract class OfferMapper {
     );
 
     public final CateringCompanyEntity resolveCateringCompanyEntity(
-            final Long companyId
-    ) {
+            final Long companyId) {
         if (companyId == null) {
             return null;
         }
-        return cateringCompanyRepository.getById(companyId);
+        return cateringCompanyRepository.findById(companyId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Catering company not found for ID: " + companyId
+                ));
     }
 }

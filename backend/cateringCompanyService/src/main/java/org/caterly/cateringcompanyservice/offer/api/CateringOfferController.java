@@ -3,6 +3,7 @@ package org.caterly.cateringcompanyservice.offer.api;
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferDTO;
 import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferRequestDTO;
+import org.caterly.cateringcompanyservice.offer.api.dto.CateringOfferWithCompanyDataDTO;
 import org.caterly.cateringcompanyservice.offer.application.CateringOfferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +23,20 @@ public final class CateringOfferController {
 
     private final CateringOfferService cateringOfferService;
 
+    @GetMapping
+    public ResponseEntity<List<CateringOfferWithCompanyDataDTO>>
+    getAllCateringOffersWithCompanyData() {
+        return ResponseEntity.ok(
+                cateringOfferService.getAllOffersWithCompanyData()
+        );
+    }
+
     @GetMapping("{cateringCompanyId}")
     public ResponseEntity<List<CateringOfferDTO>> getCateringOffers(
-        final @PathVariable long cateringCompanyId
+            final @PathVariable long cateringCompanyId
     ) {
         return ResponseEntity.ok(
-            cateringOfferService.getAllOffers(cateringCompanyId)
+                cateringOfferService.getAllOffers(cateringCompanyId)
         );
     }
 
