@@ -50,8 +50,10 @@ public class CateringOfferServiceImpl implements CateringOfferService {
                 .toList();
     }
 
+    @SuppressWarnings("DesignForExtension")
     @Override
-    public final List<CateringOfferDTO> getAllOffers(
+    @Transactional(readOnly = true)
+    public List<CateringOfferDTO> getAllOffers(
             final long cateringCompanyId
     ) {
         return cateringOfferRepository.findAllByCompanyId(cateringCompanyId)
@@ -59,8 +61,10 @@ public class CateringOfferServiceImpl implements CateringOfferService {
                 .map(offerMapper::toCateringOfferDTO).toList();
     }
 
+    @SuppressWarnings("DesignForExtension")
     @Override
-    public final CateringOfferDTO add(final CateringOfferRequestDTO request) {
+    @Transactional(readOnly = true)
+    public CateringOfferDTO add(final CateringOfferRequestDTO request) {
         CateringFoodEntity entity = cateringOfferRepository.save(
                 offerMapper.toCateringFoodEntity(request)
         );
