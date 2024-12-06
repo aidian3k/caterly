@@ -8,7 +8,7 @@ export default function useOfferDetails(
 ) {
   return useQuery({
     queryKey: ["offer", cateringCompanyId, foodId],
-    queryFn: async () => {
+    queryFn: async (): Promise<CateringOfferDTO> => {
       const res = await axiosInstance.get<CateringOfferDTO>(
         `/api/offers/${cateringCompanyId}/${foodId}`,
       );
