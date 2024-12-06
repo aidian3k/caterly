@@ -9,6 +9,8 @@ import java.util.List;
 public interface CateringOfferService {
     List<CateringOfferDTO> getAllOffers(long request);
 
+    CateringOfferDTO getById(long cateringCompanyId, long foodId);
+
     CateringOfferDTO add(CateringOfferRequestDTO request);
 
     void delete(long cateringCompanyId, long foodId);

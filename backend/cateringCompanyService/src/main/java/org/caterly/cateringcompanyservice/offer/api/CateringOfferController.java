@@ -41,6 +41,13 @@ public final class CateringOfferController {
         );
     }
 
+    @GetMapping("/{cateringCompanyId}/{foodId}")
+    public ResponseEntity<CateringOfferDTO> getCateringOfferById(final @PathVariable long cateringCompanyId, final @PathVariable long foodId) {
+        var food = cateringOfferService.getById(cateringCompanyId, foodId);
+
+        return food != null ? ResponseEntity.ok(food) : ResponseEntity.notFound().build();
+    }
+
     @PostMapping
     public ResponseEntity<CateringOfferDTO> postCateringOffer(
             final @RequestBody CateringOfferRequestDTO requestBody
