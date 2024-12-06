@@ -8,7 +8,14 @@ import java.util.List;
 
 public interface CateringOfferService {
     List<CateringOfferDTO> getAllOffers(long request);
+
     CateringOfferDTO add(CateringOfferRequestDTO request);
+
     void delete(long cateringCompanyId, long foodId);
+
     List<CateringOfferWithCompanyDataDTO> getAllOffersWithCompanyData();
+
+    CateringOfferDTO edit(long cateringCompanyId, long foodId,
+                          CateringOfferRequestDTO request);
+
 }
