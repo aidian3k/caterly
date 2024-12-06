@@ -21,7 +21,6 @@ public class CateringOfferServiceImpl implements CateringOfferService {
     private final OfferMapper offerMapper;
 
     @Override
-    @SuppressWarnings("DesignForExtension")
     @Transactional(readOnly = true)
     public List<CateringOfferWithCompanyDataDTO>
     getAllOffersWithCompanyData() {
@@ -50,7 +49,6 @@ public class CateringOfferServiceImpl implements CateringOfferService {
                 .toList();
     }
 
-    @SuppressWarnings("DesignForExtension")
     @Override
     @Transactional(readOnly = true)
     public List<CateringOfferDTO> getAllOffers(
@@ -61,7 +59,6 @@ public class CateringOfferServiceImpl implements CateringOfferService {
                 .map(offerMapper::toCateringOfferDTO).toList();
     }
 
-    @SuppressWarnings("DesignForExtension")
     @Override
     @Transactional
     public CateringOfferDTO add(final CateringOfferRequestDTO request) {
@@ -71,11 +68,31 @@ public class CateringOfferServiceImpl implements CateringOfferService {
         return offerMapper.toCateringOfferDTO(entity);
     }
 
-    @SuppressWarnings("DesignForExtension")
     @Override
     @Transactional
     public void delete(final long cateringCompanyId, final long foodId) {
         cateringOfferRepository.deleteByCompanyIdAndId(
                 cateringCompanyId, foodId);
+    }
+
+    @Override
+    @Transactional
+    public CateringOfferDTO edit(final long cateringCompanyId,
+                                 final long foodId,
+                                 final CateringOfferRequestDTO request) {
+        CateringFoodEntity entity = cateringOfferRepository.
+                findByCompanyIdAndId(
+                        cateringCompanyId, foodId
+                );
+        if (entity == null) {
+            throw new IllegalArgumentException(
+                    "Food not found for the given company and food ID"
+            );
+        }
+        entity.setPrice(request.getPrice());
+        entity.setTypeOfFood(request.getTypeOfFood());
+        entity.setPicture(request.getPicture());
+        CateringFoodEntity updatedEntity = cateringOfferRepository.save(entity);
+        return offerMapper.toCateringOfferDTO(updatedEntity);
     }
 }
