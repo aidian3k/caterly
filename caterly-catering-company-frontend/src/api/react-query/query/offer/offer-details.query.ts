@@ -16,5 +16,6 @@ export default function useOfferDetails(
       return res.data;
     },
     staleTime: Infinity,
+    refetchOnMount: "always",
   });
 }
