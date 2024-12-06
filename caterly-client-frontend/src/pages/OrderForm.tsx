@@ -1,35 +1,46 @@
-import { useReducer } from "react";
+import { useReducer, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import OrderService from "../services/OrderService";
+
+import "../index.css";
 
 interface Order {
   street: string;
   city: string;
   state: string;
   zip: string;
+  house_number: string;
+  apartament_number: string;
+  payment_method: string;
 }
 
 const orderReducer = (
-  state: Order,
+  state1: Order,
   action: { type: string; payload: string },
 ) => {
   switch (action.type) {
     case "street":
-      return { ...state, street: action.payload };
+      return { ...state1, street: action.payload };
     case "city":
-      return { ...state, city: action.payload };
+      return { ...state1, city: action.payload };
+    case "state":
+      return { ...state1, state: action.payload };
     case "house-number":
-      return { ...state, house_number: action.payload };
-    case "apartament_number":
-      return { ...state, apartament_number: action.payload };
+      return { ...state1, house_number: action.payload };
+    case "apartament-number":
+      return { ...state1, apartament_number: action.payload };
     case "zip":
-      return { ...state, zip: action.payload };
+      return { ...state1, zip: action.payload };
     case "payment-method":
-      return { ...state, payment_method: action.payload };
+      return { ...state1, payment_method: action.payload };
     default:
-      return state;
+      return state1;
   }
 };
 
 export default function OrderForm() {
+  const [errorMsg, setErrorMsg] = useState("");
   const [order, orderDispatch] = useReducer(orderReducer, {
     street: "",
     city: "",
@@ -37,8 +48,13 @@ export default function OrderForm() {
     house_number: "",
     apartament_number: "",
     zip: "",
-    payment_method: "",
+    payment_method: "card",
   });
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const totalPrice = useMemo(
+    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
+    [cart],
+  );
 
   const OnChange = function OnChange(
     e:
@@ -46,20 +62,48 @@ export default function OrderForm() {
       | React.ChangeEvent<HTMLSelectElement>,
   ) {
     orderDispatch({ type: e.target.name, payload: e.target.value });
-    console.log(order);
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    OrderService.placeOrder(
+      1,
+      order.apartament_number,
+      order.city,
+      order.house_number,
+      order.payment_method,
+      order.state,
+      order.street,
+      order.zip,
+      totalPrice,
+    ).catch((error) => {
+      setErrorMsg(error.message);
+    });
+    e.preventDefault();
   };
 
   return (
     <>
       <div>
-        <h2>Order Form</h2>
-        <form>
+        <h2 className="font-bold text-2xl mb-3">Order Form</h2>
+        <form onSubmit={onSubmit}>
+          {errorMsg !== "" && <p>{errorMsg}</p>}
           <div>
             <label htmlFor="street">Ulica:</label>
             <input
+              className="input"
               type="text"
               id="street"
               name="street"
+              required
+              onChange={OnChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="state">Województwo:</label>
+            <input
+              type="text"
+              id="state"
+              name="state"
               required
               onChange={OnChange}
             />
@@ -105,12 +149,17 @@ export default function OrderForm() {
               id="payment-method"
               onChange={OnChange}
             >
-              <option value="cash">Gotówka (przy odbiorze)</option>
               <option value="card">Karta</option>
+              <option value="cash">Gotówka (przy odbiorze)</option>
               <option value="transfer">Przelew</option>
             </select>
           </div>
-          <button type="submit">Submit</button>
+          <button
+            className="p-2 text-gray-200 transition-colors rounded-md bg-blue-600 hover:bg-blue-500"
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </>
