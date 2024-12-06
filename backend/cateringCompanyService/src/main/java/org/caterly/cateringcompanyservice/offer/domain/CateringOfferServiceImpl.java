@@ -63,7 +63,7 @@ public class CateringOfferServiceImpl implements CateringOfferService {
 
     @SuppressWarnings("DesignForExtension")
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public CateringOfferDTO add(final CateringOfferRequestDTO request) {
         CateringFoodEntity entity = cateringOfferRepository.save(
                 offerMapper.toCateringFoodEntity(request)
