@@ -1,6 +1,5 @@
 import React from "react";
 import { CateringOfferDTO } from "../../../interfaces/offer/CateringOfferDTO";
-import { useNavigate } from "react-router-dom";
 
 interface OfferItemProps {
   offer: CateringOfferDTO;
