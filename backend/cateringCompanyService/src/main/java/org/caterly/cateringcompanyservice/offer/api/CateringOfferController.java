@@ -8,11 +8,12 @@ import org.caterly.cateringcompanyservice.offer.application.CateringOfferService
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -54,5 +55,14 @@ public final class CateringOfferController {
     ) {
         cateringOfferService.delete(cateringCompanyId, foodId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{cateringCompanyId}/{foodId}")
+    public ResponseEntity<CateringOfferDTO> editCateringOffer(
+            @PathVariable final long cateringCompanyId,
+            @PathVariable final long foodId,
+            @RequestBody final CateringOfferRequestDTO requestBody) {
+        return ResponseEntity.ok(cateringOfferService.edit(cateringCompanyId,
+                foodId, requestBody));
     }
 }

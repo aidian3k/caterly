@@ -21,7 +21,9 @@ public class CompanyService {
      */
     public CateringCompanyDTO getCateringCompanyById(final Long id) {
         CateringCompanyEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Company not found by Id"
+                ));
         CateringCompanyDTO dto = new CateringCompanyDTO();
         dto.setId(entity.getId());
         dto.setCity(entity.getCity());

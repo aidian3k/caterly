@@ -14,4 +14,6 @@ interface CateringOfferRepository
     List<CateringFoodEntity> findAllByCompanyId(Long companyId);
 
     void deleteByCompanyIdAndId(Long companyId, Long foodId);
+
+    CateringFoodEntity findByCompanyIdAndId(Long companyId, Long foodId);
 }
