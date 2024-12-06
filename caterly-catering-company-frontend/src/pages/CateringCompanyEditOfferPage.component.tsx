@@ -1,7 +1,11 @@
 import { useParams } from "react-router-dom";
 
 export default function CateringCompanyEditOfferPage() {
-  const { id } = useParams();
+  const { cateringCompanyId, foodId } = useParams();
 
-  return <p>huj {id}</p>;
+  return (
+    <p>
+      Firma {cateringCompanyId}, Posiłek: {foodId}
+    </p>
+  );
 }

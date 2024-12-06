@@ -22,7 +22,7 @@ const OffersList: React.FC<OfferListProps> = ({ offers, onDeleteOffer }) => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/offer/${id}`);
+    navigate(`/offer/1/${id}`);
   };
 
   return (
