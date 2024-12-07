@@ -37,7 +37,7 @@ export default function OfferDetailsForm({
         required
       />
       <label className="mt-2" htmlFor="price">
-        Cena
+        Cena (PLN)
       </label>
       <input
         type="number"
