@@ -10,6 +10,8 @@ import { queryClient } from "../api/react-query/queryClient";
 export default function CateringCompanyEditOfferPage() {
   const { cateringCompanyId, foodId } = useParams();
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const offer = useOfferDetails(cateringCompanyId, foodId);
   const editMeal = useMutation({
     mutationFn: async (updatedMeal: EditOfferRequest) => {
       await axiosInstance.put(
@@ -26,13 +28,6 @@ export default function CateringCompanyEditOfferPage() {
       setSubmitError(err.message);
     },
   });
-  const navigate = useNavigate();
-  const {
-    data: offer,
-    error,
-    isError,
-    isPending,
-  } = useOfferDetails(cateringCompanyId, foodId);
 
   const handleSubmit = (offer: EditOfferRequest): void => {
     editMeal.mutate(offer);
@@ -41,9 +36,13 @@ export default function CateringCompanyEditOfferPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-2">Edytuj posiłek</h1>
-      {isPending && <p>Ładowanie...</p>}
-      {isError && <p>Wystąpił błąd: {error.message ?? "Nieznany błąd"}</p>}
-      {offer && <OfferDetailsForm offer={offer} onSave={handleSubmit} />}
+      {offer.isPending && <p>Ładowanie...</p>}
+      {offer.isError && (
+        <p>Wystąpił błąd: {offer.error.message ?? "Nieznany błąd"}</p>
+      )}
+      {offer.data && (
+        <OfferDetailsForm offer={offer.data} onSave={handleSubmit} />
+      )}
       {editMeal.isPending && <p>Aktualizowanie...</p>}
       {submitError && <p>Błędne dane formularza: {submitError}</p>}
     </div>
