@@ -60,6 +60,17 @@ public class CateringOfferServiceImpl implements CateringOfferService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public CateringOfferDTO getById(
+            final long cateringCompanyId,
+            final long foodId) {
+        return offerMapper.toCateringOfferDTO(
+                cateringOfferRepository.findByCompanyIdAndId(
+                        cateringCompanyId,
+                        foodId));
+    }
+
+    @Override
     @Transactional
     public CateringOfferDTO add(final CateringOfferRequestDTO request) {
         CateringFoodEntity entity = cateringOfferRepository.save(
