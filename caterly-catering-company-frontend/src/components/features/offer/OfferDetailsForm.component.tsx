@@ -1,10 +1,10 @@
 import { CateringOfferDTO } from "../../../interfaces/offer/CateringOfferDTO";
 import React from "react";
-import EditMealRequest from "../../../interfaces/offer/EditMealRequest";
+import EditOfferRequest from "../../../interfaces/offer/EditOfferRequest";
 
 interface OfferDetailsFormProps {
   offer: CateringOfferDTO;
-  onSave: (offer: EditMealRequest) => void;
+  onSave: (offer: EditOfferRequest) => void;
 }
 
 export default function OfferDetailsForm({
@@ -15,7 +15,7 @@ export default function OfferDetailsForm({
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const updatedData: EditMealRequest = {
+    const updatedData: EditOfferRequest = {
       companyId: 1,
       price: parseFloat(formData.get("price") as string),
       typeOfFood: formData.get("name") as string,
