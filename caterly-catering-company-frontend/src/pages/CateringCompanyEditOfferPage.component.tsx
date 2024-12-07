@@ -44,6 +44,7 @@ export default function CateringCompanyEditOfferPage() {
       {isPending && <p>Ładowanie...</p>}
       {isError && <p>Wystąpił błąd: {error.message ?? "Nieznany błąd"}</p>}
       {offer && <OfferDetailsForm offer={offer} onSave={handleSubmit} />}
+      {editMeal.isPending && <p>Aktualizowanie...</p>}
       {submitError && <p>Błędne dane formularza: {submitError}</p>}
     </div>
   );
