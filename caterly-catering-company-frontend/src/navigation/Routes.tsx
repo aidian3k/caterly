@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <CateringCompanyNewOfferForm />,
       },
       {
-        path: "/offer/:cateringCompanyId/:foodId",
+        path: "/offer/:cateringCompanyId/:offerId",
         element: <CateringCompanyEditOfferPage />,
       },
     ],

@@ -8,14 +8,14 @@ import axiosInstance from "../api/axiosConfig";
 import { queryClient } from "../api/react-query/queryClient";
 
 export default function CateringCompanyEditOfferPage() {
-  const { cateringCompanyId, foodId } = useParams();
+  const { cateringCompanyId, offerId } = useParams();
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const offer = useOfferDetails(cateringCompanyId, foodId);
+  const offer = useOfferDetails(cateringCompanyId, offerId);
   const editMeal = useMutation({
     mutationFn: async (updatedMeal: EditOfferRequest) => {
       await axiosInstance.put(
-        `/api/offers/${cateringCompanyId}/${foodId}`,
+        `/api/offers/${cateringCompanyId}/${offerId}`,
         updatedMeal,
       );
     },
