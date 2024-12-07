@@ -41,7 +41,11 @@ export default function CateringCompanyEditOfferPage() {
         <p>Wystąpił błąd: {offer.error.message ?? "Nieznany błąd"}</p>
       )}
       {offer.data && (
-        <OfferDetailsForm offer={offer.data} onSave={handleSubmit} />
+        <OfferDetailsForm
+          companyId={parseInt(cateringCompanyId ?? "1")}
+          offer={offer.data}
+          onSave={handleSubmit}
+        />
       )}
       {editMeal.isPending && <p>Aktualizowanie...</p>}
       {submitError && <p>Błędne dane formularza: {submitError}</p>}

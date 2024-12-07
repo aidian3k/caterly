@@ -4,11 +4,13 @@ import EditOfferRequest from "../../../interfaces/offer/EditOfferRequest";
 
 interface OfferDetailsFormProps {
   offer: CateringOfferDTO;
+  companyId: number;
   onSave: (offer: EditOfferRequest) => void;
 }
 
 export default function OfferDetailsForm({
   offer,
+  companyId,
   onSave,
 }: OfferDetailsFormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,7 +18,7 @@ export default function OfferDetailsForm({
 
     const formData = new FormData(e.currentTarget);
     const updatedData: EditOfferRequest = {
-      companyId: 1,
+      companyId: companyId,
       price: parseFloat(formData.get("price") as string),
       typeOfFood: formData.get("name") as string,
     };
