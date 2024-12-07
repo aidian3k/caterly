@@ -4,13 +4,13 @@ import { CateringOfferDTO } from "../../../../interfaces/offer/CateringOfferDTO"
 
 export default function useOfferDetails(
   cateringCompanyId?: string,
-  foodId?: string,
+  offerId?: string,
 ) {
   return useQuery({
-    queryKey: ["offer", cateringCompanyId, foodId],
+    queryKey: ["offer", cateringCompanyId, offerId],
     queryFn: async (): Promise<CateringOfferDTO> => {
       const res = await axiosInstance.get<CateringOfferDTO>(
-        `/api/offers/${cateringCompanyId}/${foodId}`,
+        `/api/offers/${cateringCompanyId}/${offerId}`,
       );
 
       return res.data;
