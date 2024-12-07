@@ -1,10 +1,32 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useOfferDetails from "../api/react-query/query/offer/offer-details.query";
-import { CateringOfferDTO } from "../interfaces/offer/CateringOfferDTO";
 import OfferDetailsForm from "../components/features/offer/OfferDetailsForm.component";
+import EditMealRequest from "../interfaces/offer/EditMealRequest";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "../api/axiosConfig";
+import { queryClient } from "../api/react-query/queryClient";
 
 export default function CateringCompanyEditOfferPage() {
   const { cateringCompanyId, foodId } = useParams();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const editMeal = useMutation({
+    mutationFn: async (updatedMeal: EditMealRequest) => {
+      await axiosInstance.put(
+        `/api/offers/${cateringCompanyId}/${foodId}`,
+        updatedMeal,
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["offer"] }).then(() => {
+        navigate("/offer");
+      });
+    },
+    onError: (err) => {
+      setSubmitError(err.message);
+    },
+  });
+  const navigate = useNavigate();
   const {
     data: offer,
     error,
@@ -12,8 +34,8 @@ export default function CateringCompanyEditOfferPage() {
     isPending,
   } = useOfferDetails(cateringCompanyId, foodId);
 
-  const handleSubmit = (offer: CateringOfferDTO): void => {
-    // TODO
+  const handleSubmit = (offer: EditMealRequest): void => {
+    editMeal.mutate(offer);
   };
 
   return (
@@ -22,6 +44,7 @@ export default function CateringCompanyEditOfferPage() {
       {isPending && <p>Ładowanie...</p>}
       {isError && <p>Wystąpił błąd: {error.message ?? "Nieznany błąd"}</p>}
       {offer && <OfferDetailsForm offer={offer} onSave={handleSubmit} />}
+      {submitError && <p>Błędne dane formularza: {submitError}</p>}
     </div>
   );
 }

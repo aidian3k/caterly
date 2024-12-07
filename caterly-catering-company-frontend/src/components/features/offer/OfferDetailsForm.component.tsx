@@ -1,22 +1,31 @@
 import { CateringOfferDTO } from "../../../interfaces/offer/CateringOfferDTO";
+import React from "react";
+import EditMealRequest from "../../../interfaces/offer/EditMealRequest";
 
 interface OfferDetailsFormProps {
   offer: CateringOfferDTO;
-  onSave: (offer: CateringOfferDTO) => void;
+  onSave: (offer: EditMealRequest) => void;
 }
 
 export default function OfferDetailsForm({
   offer,
   onSave,
 }: OfferDetailsFormProps) {
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-      }}
-    >
+    const formData = new FormData(e.currentTarget);
+    const updatedData: EditMealRequest = {
+      companyId: 1,
+      price: parseFloat(formData.get("price") as string),
+      typeOfFood: formData.get("name") as string,
+    };
+
+    onSave(updatedData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
       <label htmlFor="name">Nazwa</label>
       <input
         name="name"
