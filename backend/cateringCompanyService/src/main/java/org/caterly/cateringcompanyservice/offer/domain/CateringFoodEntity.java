@@ -27,8 +27,12 @@ public final class CateringFoodEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private double price;
+
     private String typeOfFood;
+
+    private String picture;
 
     @ManyToOne
     @JoinColumn(name = "catering_company_id", nullable = false)

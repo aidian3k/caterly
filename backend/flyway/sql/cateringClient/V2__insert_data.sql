@@ -9,3 +9,9 @@ INSERT INTO orders (date_of_purchase, state, address, client_id, catering_food_e
 VALUES
     ('2024-01-01', 'AC', 'client1 address', 1, 1, 'PURCHASED'),
     ('2024-01-02', 'DC', 'client2 address', 2, 2, 'SHIPPED');
+
+-- Insert initial meals
+INSERT INTO meal_entity (type_of_food, price, catering_company_id)
+VALUES
+    ('Pizza', '10.99', 1),
+    ('Sushi', '15.99', 2);

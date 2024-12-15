@@ -1,0 +1,17 @@
+# backend: CaterlyClient
+location ^~ ${APIGATEWAY_CLIENT_PATH} {
+    proxy_pass ${APIGATEWAY_CLIENT_URL};
+    proxy_pass_request_headers on;
+    proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+    proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+}
+
+# backend: CaterlyCompany
+location ^~ ${APIGATEWAY_COMPANY_PATH} {
+    proxy_pass ${APIGATEWAY_COMPANY_URL};
+    proxy_pass_request_headers on;
+    proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+    proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+}

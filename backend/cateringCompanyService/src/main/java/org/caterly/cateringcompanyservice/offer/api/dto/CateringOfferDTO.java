@@ -7,4 +7,5 @@ public class CateringOfferDTO {
     private Long id;
     private Double price;
     private String typeOfFood;
+    private String picture;
 }

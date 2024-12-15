@@ -1,48 +1,74 @@
 import React from "react";
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Cart from "./components/cart/Cart";
+import LoginForm from "./pages/login/LoginForm";
+import FoodListPage from "./pages/FoodListPage";
+import Cart from "./pages/Cart";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
+import RegistrationForm from "./pages/registration/RegistrationForm";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import apiClient from "./lib/axios";
+import { loginAction } from "./redux/actions/authActions";
+import AuthorizeView from "./components/layout/AuthorizeView";
 
 const tryAuthenticate = async () => {
-  // TODO: Check if user is already logged in after opening the app
+  try {
+    await apiClient.get("/auth/ac");
+    store.dispatch(loginAction());
+  } catch {
+    // empty
+  }
   return null;
 };
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <p>Logowanie</p>,
-    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
-  },
-  {
-    path: "/register",
-    element: <p>Rejestracja</p>,
-    loader: tryAuthenticate, // TODO: should redirect to dashboard if logged in
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    loader: tryAuthenticate, // TODO: shouldn't allow unauthenticated users
+    loader: tryAuthenticate,
     children: [
       {
-        path: "dashboard",
-        element: <p>Strona główna</p>,
+        path: "/login",
+        element: <LoginForm />,
       },
       {
-        path: "meals",
-        element: <p>Lista posiłków</p>,
+        path: "/register",
+        element: <RegistrationForm />,
       },
       {
-        path: "cart",
-        element: <Cart />,
+        path: "/",
+        element: (
+          <AuthorizeView>
+            <Layout />
+          </AuthorizeView>
+        ),
+        children: [
+          {
+            path: "dashboard",
+            element: <p>Strona główna</p>,
+          },
+          {
+            path: "meals",
+            element: <FoodListPage />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+        ],
       },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;

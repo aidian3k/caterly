@@ -1,14 +1,28 @@
 spring:
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://0.0.0.0:5432/mydatabase
-        username: myuser
-        password: secret
-    jpa:
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-    application:
-        name: cateringClientService
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5434/myclientdatabase
+    username: myclientuser
+    password: secret
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+  application:
+    name: cateringClientService
 server:
-    port: 8081
+  servlet:
+    session:
+      cookie:
+        same-site: Lax
+  port: 8080
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.web.context.SecurityContextPersistenceFilter: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+

@@ -1,6 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { CSSProperties } from "react";
-import styles from "./NavigationLink.module.css";
 
 interface NavigationLinkProps {
   label: string;
@@ -10,11 +8,15 @@ interface NavigationLinkProps {
 export default function NavigationLink({ label, path }: NavigationLinkProps) {
   const location = useLocation();
   const isActive = location.pathname.includes(path);
-  const linkStyle: CSSProperties = isActive ? { fontWeight: 700 } : {};
+  let linkStyle = "text-md hover:text-gray-800";
+
+  if (isActive) {
+    linkStyle += " font-bold";
+  }
 
   return (
-    <div className={styles.navigationItem}>
-      <NavLink style={linkStyle} to={path}>
+    <div className="p-1">
+      <NavLink className={linkStyle} to={path}>
         {label}
       </NavLink>
     </div>
