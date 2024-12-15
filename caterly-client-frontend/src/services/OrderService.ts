@@ -3,7 +3,8 @@ import apiClient from "../lib/axios";
 const OrderService = {
   addReview: async (orderId: number, rating: number, reviewText: string) => {
     try {
-      const response = await apiClient.post("/orders/${orderId}/review", {
+      const endpoint = "/orders/" + orderId + "/review";
+      const response = await apiClient.post(endpoint, {
         rating,
         reviewText,
       });
