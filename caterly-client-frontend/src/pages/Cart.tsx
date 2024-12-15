@@ -43,6 +43,7 @@ const Cart = () => {
           <p>
             <strong>Łączna cena: {totalPrice.toFixed(2)} PLN</strong>
           </p>
+          <Button label="Podsumowanie" onClick={() => navigate("/summary")} />
         </div>
       )}
     </div>

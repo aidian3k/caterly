@@ -12,6 +12,7 @@ import store from "./redux/store";
 import apiClient from "./lib/axios";
 import { loginAction } from "./redux/actions/authActions";
 import AuthorizeView from "./components/layout/AuthorizeView";
+import Summary from "./pages/Summary";
 
 const tryAuthenticate = async () => {
   try {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
           {
             path: "cart",
             element: <Cart />,
+          },
+          {
+            path: "summary",
+            element: <Summary />,
           },
         ],
       },
