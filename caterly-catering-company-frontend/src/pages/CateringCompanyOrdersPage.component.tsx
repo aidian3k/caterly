@@ -11,7 +11,7 @@ const CateringCompanyOrdersPage = () => {
 
             {
                 isPending && (
-                    <p>Loading...</p>
+                    <p>Ładowanie...</p>
                 )
             }
             {
