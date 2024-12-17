@@ -8,7 +8,6 @@ interface OrderListProps {
 }
 
 const OrdersList: React.FC<OrderListProps> = ({ orders }) => {
-  const navigate = useNavigate();
 
   return (
     <div className="p-10">
