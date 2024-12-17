@@ -12,7 +12,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
       <h2 className="text-xl font-semibold text-gray-800">
         {order.id}
       </h2>
-      <p className="text-lg text-gray-600">{order.dateOfPurchase.toDateString()} </p>
+      <p className="text-lg text-gray-600">{order.dateOfPurchase.toLocaleString()} </p>
       <p className="text-lg text-gray-600">{order.state} </p>
       <div className="flex flex-col gap-2">
         <button
