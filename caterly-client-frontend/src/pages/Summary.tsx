@@ -1,14 +1,8 @@
-// write the simplest react page there is
-
 import React, { useMemo } from "react";
-import ReactDOM from "react-dom";
-import RegistrationForm from "./registration/RegistrationForm";
 import Button from "../components/buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import CartItemCard from "../components/cart/CartItemCard";
-import { removeCartItemAction } from "../redux/actions/cartActions";
 
 const Summary = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
