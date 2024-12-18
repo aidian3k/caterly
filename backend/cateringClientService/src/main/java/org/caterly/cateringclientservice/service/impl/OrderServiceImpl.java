@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+public final class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final PaymentService paymentService;
 
     @Override
-    public Order createOrder(OrderRequest orderRequest) {
+    public Order createOrder(final OrderRequest orderRequest) {
         Order order = new Order();
         order.setApartmentNumber(orderRequest.getApartmentNumber());
         order.setCity(orderRequest.getCity());

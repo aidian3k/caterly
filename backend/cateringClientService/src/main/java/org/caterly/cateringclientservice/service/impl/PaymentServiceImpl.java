@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentServiceImpl implements PaymentService {
+public final class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     @Override
-    public Payment createPayment(Long orderId, Double amount) {
+    public Payment createPayment(final Long orderId, final Double amount) {
         Payment payment = new Payment();
         payment.setOrderId(orderId);
         payment.setAmount(amount);
