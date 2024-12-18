@@ -4,25 +4,24 @@ import OrderService from "../../services/OrderService";
 
 interface ReviewFormProps {
   orderId: number;
+  onCancel: () => void;
 }
 
-export default function ReviewForm(props: ReviewFormProps) {
+export default function ReviewForm({ orderId, onCancel }: ReviewFormProps) {
   const [rating, setRating] = useState<number>(0);
   const [reviewText, setReviewText] = useState<string>("");
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null);
 
     try {
-      await OrderService.addReview(props.orderId, rating, reviewText);
-      setSuccess("Opinia została dodana pomyślnie!");
+      await OrderService.addReview(orderId, rating, reviewText);
       setRating(0);
       setReviewText("");
+      onCancel();
     } catch (err: any) {
       setError(err.message);
     }
@@ -32,7 +31,7 @@ export default function ReviewForm(props: ReviewFormProps) {
     setRating(0);
     setReviewText("");
     setError(null);
-    setSuccess(null);
+    onCancel();
   };
 
   return (
@@ -67,7 +66,6 @@ export default function ReviewForm(props: ReviewFormProps) {
         ></textarea>
 
         {error && <p className="review-error">{error}</p>}
-        {success && <p className="review-success">{success}</p>}
 
         <button type="submit" className="review-submit-button">
           + Dodaj opinię
