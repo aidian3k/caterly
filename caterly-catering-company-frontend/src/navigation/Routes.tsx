@@ -4,6 +4,7 @@ import CateringCompanyOfferPage from "../pages/CateringCompanyOfferPage.componen
 import CateringCompanyNewOfferForm from "../pages/CateringCompanyNewOfferForm.component";
 import Layout from "../components/shared/layout/Layout.component";
 import CateringCompanyEditOfferPage from "../pages/CateringCompanyEditOfferPage.component";
+import CateringCompanyOrdersPage from "../pages/CateringCompanyOrdersPage.component";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/offer/:cateringCompanyId/:offerId",
         element: <CateringCompanyEditOfferPage />,
+      },
+      {
+        path: "/orders",
+        element: <CateringCompanyOrdersPage />,
       },
     ],
   },
