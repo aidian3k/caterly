@@ -62,7 +62,6 @@ export default function ReviewForm({ orderId, onCancel }: ReviewFormProps) {
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Wpisz swoją opinię"
-          required
         ></textarea>
 
         {error && <p className="review-error">{error}</p>}
