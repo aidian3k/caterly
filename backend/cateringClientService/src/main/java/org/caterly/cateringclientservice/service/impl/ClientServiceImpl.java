@@ -6,6 +6,7 @@ import org.caterly.cateringclientservice.dto.Role;
 import org.caterly.cateringclientservice.exception.UserAlreadyExistsException;
 import org.caterly.cateringclientservice.model.Client;
 import org.caterly.cateringclientservice.repository.ClientRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.caterly.cateringclientservice.service.ClientService;
@@ -31,6 +32,13 @@ public final class ClientServiceImpl implements ClientService {
                 .build();
 
         return clientRepository.save(client);
+    }
+
+    @Override
+    public Client getClientByEmail(final String email) {
+        return clientRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found"));
     }
 }
 
