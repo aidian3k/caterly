@@ -1,12 +1,21 @@
 package org.caterly.cateringclientservice.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderRequest {
-    public String apartment_number;
-    public String city;
-    public String house_number;
-    public String payment_method;
-    public String state;
-    public String street;
-    public String zip;
-    public Double amount;
+    private String apartmentNumber;
+    private String city;
+    private String houseNumber;
+    private String paymentMethod;
+    private String state;
+    private String street;
+    private String zip;
+    private Double amount;
 }
