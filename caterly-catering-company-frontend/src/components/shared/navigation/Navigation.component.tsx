@@ -14,6 +14,9 @@ const Navigation: React.FC = () => {
                 <li>
                     <Link className="text-white hover:underline" to="/offer/new">Dodaj nową ofertę</Link>
                 </li>
+                <li>
+                    <Link className="text-white hover:underline" to="/orders">Aktualne zamówienia</Link>
+                </li>
             </ul>
         </nav>
     );
