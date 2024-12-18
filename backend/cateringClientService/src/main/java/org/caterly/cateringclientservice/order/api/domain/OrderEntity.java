@@ -49,4 +49,9 @@ public class OrderEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
+
+    public Client getClient() {
+        return client == null ? null : new Client(client);
+    }
+
 }
