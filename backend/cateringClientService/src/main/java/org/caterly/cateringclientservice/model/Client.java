@@ -31,4 +31,13 @@ public final class Client {
     private Integer piggyBankMoney;
     @Column(name = "role")
     private String role;
+
+    public Client(final Client client) {
+        this.id = client.getId();
+        this.email = client.getEmail();
+        this.password = client.getPassword();
+        this.city = client.getCity();
+        this.piggyBankMoney = client.getPiggyBankMoney();
+        this.role = client.getRole();
+    }
 }
