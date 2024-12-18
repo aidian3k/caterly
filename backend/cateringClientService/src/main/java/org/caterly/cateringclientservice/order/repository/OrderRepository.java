@@ -1,6 +1,6 @@
-package org.caterly.cateringclientservice.repository;
+package org.caterly.cateringclientservice.order.repository;
 
-import org.caterly.cateringclientservice.model.Order;
+import org.caterly.cateringclientservice.order.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
