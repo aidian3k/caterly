@@ -32,7 +32,7 @@ public final class Client {
     @Column(name = "role")
     private String role;
 
-    public Client(Client client) {
+    public Client(final Client client) {
         this.id = client.getId();
         this.email = client.getEmail();
         this.password = client.getPassword();

@@ -1,6 +1,5 @@
 package org.caterly.cateringclientservice.order.api.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -50,8 +49,12 @@ public class OrderEntity {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    /**
+     * Returns a copy of the client object.
+     *
+     * @return a copy of the client object
+     */
     public Client getClient() {
         return client == null ? null : new Client(client);
     }
-
 }
