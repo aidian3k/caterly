@@ -8,19 +8,11 @@ CREATE TABLE IF NOT EXISTS client (
 
 -- Creating Order Table
 CREATE TABLE IF NOT EXISTS orders (
-    id SERIAL PRIMARY KEY,
-    date_of_purchase DATE,
-    state VARCHAR(255),
-    address VARCHAR(255),
-
-    -- Foreign key to Client
+    id BIGSERIAL PRIMARY KEY,
     client_id BIGINT REFERENCES client(id) ON DELETE CASCADE,
-
-    -- Reference to Catering Food Entity (across databases, without enforcement)
-    catering_food_entity_id BIGINT,
-
-    -- Enum-like constraint for Order State
-    order_state VARCHAR(50) CHECK (order_state IN ('PURCHASED', 'SHIPPED', 'FINISHED'))
+    date_of_purchase DATE,
+    address VARCHAR(255),
+    status VARCHAR(50) CHECK (status IN ('UNPAID', 'PURCHASED', 'SHIPPED', 'FINISHED'))
 );
 
 CREATE TABLE IF NOT EXISTS meal_entity (
@@ -28,6 +20,13 @@ CREATE TABLE IF NOT EXISTS meal_entity (
     type_of_food VARCHAR(255),
     price VARCHAR(255),
     catering_company_id BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS order_meals (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id BIGINT REFERENCES orders(id),
+    meal_id INT REFERENCES meal_entity(id),
+    quantity INT CHECK (quantity > 0)
 );
 
 -- V1__Add_password_column_to_client.sql
