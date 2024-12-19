@@ -28,6 +28,7 @@ export default function Navigation() {
         <NavigationLink label="Strona główna" path="dashboard" />
         <NavigationLink label="Lista posiłków" path="meals" />
         <NavigationLink label="Koszyk" path="cart" />
+        <NavigationLink label="Historia zamówień" path="orderHistory" />
       </div>
       <div
         className="flex flex-row justify-end p-1 text-md hover:text-gray-800 hover:cursor-pointer"
