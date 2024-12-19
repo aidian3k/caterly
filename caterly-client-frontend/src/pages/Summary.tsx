@@ -1,16 +1,41 @@
 import React, { useMemo } from "react";
 import Button from "../components/buttons/Button";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { useMutation } from "@tanstack/react-query";
+import apiClient from "../lib/axios";
+import SubmitOrder from "../interfaces/SubmitOrder";
+import { clearCartAction } from "../redux/actions/cartActions";
 
 const Summary = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const totalPrice = useMemo(
     () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
     [cart],
   );
+  const submitOrder = useMutation({
+    mutationFn: async () => {
+      const submitOrderDto: SubmitOrder = {
+        meals: cart.map((el) => ({
+          mealId: el.id,
+          quantity: el.quantity,
+        })),
+      };
+
+      await apiClient.post("/orders", submitOrderDto);
+    },
+    onSuccess: () => {
+      dispatch(clearCartAction());
+      navigate("/orderHistory");
+    },
+    onError: (err) => {
+      console.log("Wystąpił błąd przy składaniu zamówienia.");
+      console.log(err);
+    },
+  });
 
   return (
     <div>
@@ -84,7 +109,7 @@ const Summary = () => {
         </div>
       </div>
       <div className="flex flex-row gap-3 items-center">
-        <Button label="Zapłać" onClick={() => navigate("/payment")} />
+        <Button label="Złóż zamowienie" onClick={() => submitOrder.mutate()} />
         <Button label="Powrót" onClick={() => navigate("/cart")} />
       </div>
     </div>

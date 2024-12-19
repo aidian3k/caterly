@@ -2,6 +2,7 @@ import CartItem from "../../interfaces/CartItem";
 import { createReducer } from "@reduxjs/toolkit";
 import {
   addItemToCartAction,
+  clearCartAction,
   editCartItemAction,
   removeCartItemAction,
 } from "../actions/cartActions";
@@ -42,6 +43,9 @@ const cartReducer = createReducer(initialState, (builder) => {
     })
     .addCase(removeCartItemAction, (state, action) => {
       state["cart"] = state["cart"].filter((el) => el.id !== action.payload);
+    })
+    .addCase(clearCartAction, () => {
+      return initialState;
     });
 });
 
