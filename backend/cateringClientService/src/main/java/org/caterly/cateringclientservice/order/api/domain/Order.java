@@ -28,7 +28,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class OrderEntity {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,14 +36,12 @@ public class OrderEntity {
 
     private LocalDate dateOfPurchase;
 
-    private String state;
+    @Enumerated(EnumType.STRING)
+    private OrderState state;
 
     private String address;
 
-    private Long cateringFoodEntityId;
-
-    @Enumerated(EnumType.STRING)
-    private OrderState orderState;
+    private String paymentMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")

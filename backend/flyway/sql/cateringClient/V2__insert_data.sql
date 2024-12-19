@@ -5,13 +5,19 @@ VALUES
     ('Tokyo-3', 'client2@example.com', 1500);
 
 -- Insert initial orders (assuming IDs match existing data in the company database)
-INSERT INTO orders (date_of_purchase, state, address, client_id, catering_food_entity_id, order_state)
+INSERT INTO orders (address, client_id, payment_method)
 VALUES
-    ('2024-01-01', 'AC', 'client1 address', 1, 1, 'PURCHASED'),
-    ('2024-01-02', 'DC', 'client2 address', 2, 2, 'SHIPPED');
+    ('client1 address', 1, 'credit_card'),
+    ('client2 address', 2, 'credit_card');
 
 -- Insert initial meals
 INSERT INTO meal_entity (type_of_food, price, catering_company_id)
 VALUES
     ('Pizza', '10.99', 1),
     ('Sushi', '15.99', 2);
+
+INSERT INTO order_meals (order_id, meal_id, quantity)
+VALUES
+    (1, 1, 2),
+    (2, 2, 3),
+    (2, 1, 2);
