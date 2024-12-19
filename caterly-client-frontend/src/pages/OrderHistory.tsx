@@ -32,6 +32,7 @@ export default function OrderHistoryPage() {
                 <th className="py-2 px-4 border-b">Adres</th>
                 <th className="py-2 px-4 border-b">Data zamówienia</th>
                 <th className="py-2 px-4 border-b">Status zamówienia</th>
+                <th className="py-2 px-4 border-b">Akcje</th>
               </tr>
             </thead>
             <tbody>
@@ -60,6 +61,16 @@ export default function OrderHistoryPage() {
                       }`}
                     >
                       {translateOrderState(order.state)}
+                    </td>
+                    <td className="py-2 px-4 border-b text-center">
+                      {order.state === OrderState.SHIPPED && (
+                        <button
+                          className="text-blue-500 underline"
+                          onClick={() => handleAddReview(order.id)}
+                        >
+                          Dodaj opinię
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
