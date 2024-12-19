@@ -4,6 +4,11 @@ spring:
     url: jdbc:postgresql://0.0.0.0:5433/mydatabase
     username: myuser
     password: secret
+    client-order:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5434/myclientdatabase
+      username: myclientuser
+      password: secret
   jpa:
     properties:
       hibernate:
