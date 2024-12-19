@@ -15,6 +15,7 @@ import AuthorizeView from "./components/layout/AuthorizeView";
 import Summary from "./pages/Summary";
 import OrderHistoryPage from "./pages/OrderHistory";
 import OrderPayment from "./pages/OrderPayment";
+import OrderPage from "./pages/OrderPage";
 
 const tryAuthenticate = async () => {
   try {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
           {
             path: "orders/:id/pay",
             element: <OrderPayment />,
+          },
+          {
+            path: "order/:orderid",
+            element: <OrderPage />,
           },
         ],
       },
