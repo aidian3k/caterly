@@ -13,6 +13,7 @@ import apiClient from "./lib/axios";
 import { loginAction } from "./redux/actions/authActions";
 import AuthorizeView from "./components/layout/AuthorizeView";
 import Summary from "./pages/Summary";
+import OrderHistoryPage from "./pages/OrderHistory";
 
 const tryAuthenticate = async () => {
   try {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: "summary",
             element: <Summary />,
+          },
+          {
+            path: "orderHistory",
+            element: <OrderHistoryPage />,
           },
         ],
       },
