@@ -6,12 +6,15 @@ import org.caterly.cateringclientservice.order.dto.OrderPutRequestDTO;
 import org.caterly.cateringclientservice.order.dto.OrderResponseDTO;
 import org.caterly.cateringclientservice.order.application.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -21,7 +24,12 @@ public final class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/")
+    @GetMapping()
+    public ResponseEntity<List<OrderResponseDTO>> getAllClientOrders() {
+        return ResponseEntity.ok(orderService.getAllClientOrders());
+    }
+
+    @PostMapping()
     public ResponseEntity<OrderResponseDTO> placeOrder(
         final @RequestBody OrderPostRequestDTO orderPostRequest
     ) {

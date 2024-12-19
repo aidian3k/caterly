@@ -30,8 +30,23 @@ public class OrderServiceImpl implements OrderService {
     private final ClientRepository clientRepository;
 
     @Override
+    public List<OrderResponseDTO> getAllClientOrders() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        Client user = clientRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
+
+        return orderRepository.findAllByClientId(user.getId()).stream()
+                .map(orderMapper::toOrderResponseDTO)
+                .toList();
+    }
+
+    @Override
     @Transactional
-    public final OrderResponseDTO addOrder(
+    public OrderResponseDTO addOrder(
             final OrderPostRequestDTO orderPostRequest
     ) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder
@@ -57,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public final OrderResponseDTO modifyOrder(
+    public OrderResponseDTO modifyOrder(
             final Long orderId,
             final OrderPutRequestDTO orderPutRequest
     ) {
