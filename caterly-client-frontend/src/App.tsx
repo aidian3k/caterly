@@ -14,6 +14,7 @@ import { loginAction } from "./redux/actions/authActions";
 import AuthorizeView from "./components/layout/AuthorizeView";
 import Summary from "./pages/Summary";
 import OrderHistoryPage from "./pages/OrderHistory";
+import OrderPayment from "./pages/OrderPayment";
 import OrderPage from "./pages/OrderPage";
 
 const tryAuthenticate = async () => {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
           {
             path: "orderHistory",
             element: <OrderHistoryPage />,
+          },
+          {
+            path: "orders/:id/pay",
+            element: <OrderPayment />,
           },
           {
             path: "order/:orderid",
