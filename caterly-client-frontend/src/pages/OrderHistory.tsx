@@ -3,10 +3,13 @@ import { useState } from "react";
 import ReviewForm from "../components/review-form/ReviewForm";
 import { translateOrderState } from "../utils/OrderStateTranslationMapper";
 import { OrderState } from "../interfaces/Order";
+import Button from "../components/buttons/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderHistoryPage() {
   const { data: orders, error, isError } = useGetOrderHistory();
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const handleAddReview = (orderId: number) => {
     setSelectedOrderId(orderId);
@@ -70,6 +73,12 @@ export default function OrderHistoryPage() {
                         >
                           Dodaj opinię
                         </button>
+                      )}
+                      {order.state === OrderState.DRAFT && (
+                        <Button
+                          label="Opłać"
+                          onClick={() => navigate(`/orders/${order.id}/pay`)}
+                        />
                       )}
                     </td>
                   </tr>
