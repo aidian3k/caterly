@@ -12,16 +12,16 @@ export default function OrderHistoryPage() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4">Order List</h1>
+      <h1 className="text-2xl font-bold mb-4">Historia zamówień</h1>
       {/*{error && <div className="text-red-500 mb-4">{error}</div>}*/}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 rounded-lg">
           <thead className="bg-gray-100">
             <tr>
               <th className="py-2 px-4 border-b">ID</th>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Date of Purchase</th>
-              <th className="py-2 px-4 border-b">Order State</th>
+              <th className="py-2 px-4 border-b">Adres</th>
+              <th className="py-2 px-4 border-b">Data złożenia</th>
+              <th className="py-2 px-4 border-b">Status zamówienia</th>
             </tr>
           </thead>
           <tbody>
@@ -32,20 +32,22 @@ export default function OrderHistoryPage() {
                   className="hover:bg-gray-50 transition duration-200"
                 >
                   <td className="py-2 px-4 border-b text-center">{order.id}</td>
-                  <td className="py-2 px-4 border-b">{order.name}</td>
+                  <td className="py-2 px-4 border-b text-center">
+                    {order.address ?? "-"}
+                  </td>
                   <td className="py-2 px-4 border-b text-center">
                     {new Date(order.dateOfPurchase).toLocaleDateString()}
                   </td>
                   <td
                     className={`py-2 px-4 border-b text-center ${
-                      order.orderState === OrderState.FINISHED
+                      order.state === OrderState.SHIPPED
                         ? "text-green-500"
-                        : order.orderState === OrderState.SHIPPED
+                        : order.state === OrderState.PAID
                           ? "text-blue-500"
                           : "text-gray-500"
                     }`}
                   >
-                    {order.orderState}
+                    {order.state}
                   </td>
                 </tr>
               ))}
