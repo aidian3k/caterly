@@ -4,16 +4,11 @@ import useMeals from "../queries/meals.query";
 import MealDto from "../interfaces/MealDto";
 import useGetOrderHistory from "../queries/orderHistory.query";
 import { OrderDTO } from "../interfaces/Order";
+import { translateOrderState } from "../utils/OrderStateTranslationMapper";
 
 export default function OrderPage() {
   const { orderid } = useParams<{ orderid: string }>();
 
-  //   const { //odkomentować jak endpoint będzie istnieć i wywalić workaround co jest dalej
-  //     data: order,
-  //     error: orderError,
-  //     isError: isOrderError,
-  //     isPending: isOrderPending,
-  //   } = useOrder(Number(orderid));
   const {
     data: orders,
     error: ordersError,
@@ -38,67 +33,59 @@ export default function OrderPage() {
   const navigate = useNavigate();
 
   const getTotalPriceForMeal = (meal: MealDto) => {
-    if (!meals) {
-      return null;
-    }
-    const matchingEntity = meals.find((mealEntity) => {
-      return mealEntity.id === meal.mealId;
-    });
-    if (matchingEntity === undefined) {
-      return null;
-    }
-    const parsedPricePerMeal = Number.parseFloat(matchingEntity.price);
-    if (Number.isNaN(parsedPricePerMeal)) {
-      return null;
-    }
-    return meal.quantity * Number.parseFloat(matchingEntity.price);
+    if (!meals) return null;
+    const matchingEntity = meals.find(
+      (mealEntity) => mealEntity.id === meal.mealId,
+    );
+    if (!matchingEntity) return null;
+    const parsedPricePerMeal = parseFloat(matchingEntity.price);
+    if (isNaN(parsedPricePerMeal)) return null;
+    return meal.quantity * parsedPricePerMeal;
   };
 
   const getMealName = (meal: MealDto) => {
-    if (!meals) {
-      return null;
-    }
-    const matchingEntity = meals.find((mealEntity) => {
-      return mealEntity.id === meal.mealId;
-    });
-    if (matchingEntity === undefined) {
-      return null;
-    }
+    if (!meals) return null;
+    const matchingEntity = meals.find(
+      (mealEntity) => mealEntity.id === meal.mealId,
+    );
+    if (!matchingEntity) return null;
     return matchingEntity.typeOfFood;
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+    <div className="w-full max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl">
+      <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-8">
         Szczegóły zamówienia
       </h2>
 
       {(isOrderPending || isMealsPending) && (
         <p className="text-center text-gray-500">Ładowanie...</p>
       )}
+
       {(isOrderError || isMealsError) && (
-        <div>
-          <p className="text-center text-red-500">Wystąpił błąd!</p>
+        <div className="space-y-4">
+          <p className="text-center text-red-500 text-lg">Wystąpił błąd!</p>
           {orderError && (
             <p className="text-center text-red-500">
-              {"OrderError: " + orderError.message}
+              {`OrderError: ${orderError.message}`}
             </p>
           )}
           {mealsError && (
             <p className="text-center text-red-500">
-              {"MealsError: " + mealsError.message}
+              {`MealsError: ${mealsError.message}`}
             </p>
           )}
         </div>
       )}
+
       {order && (
         <div className="space-y-6">
-          <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-700 mb-3">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold text-gray-700 mb-4">
               Zamówienie (numer {order.id})
             </h3>
 
-            <div className="text-gray-600">
+            <div className="space-y-2 text-gray-600">
               <p>
                 <strong className="font-semibold">Data zakupu:</strong>{" "}
                 {order.dateOfPurchase}
@@ -112,40 +99,45 @@ export default function OrderPage() {
                 {order.paymentMethod || "Brak danych"}
               </p>
               <p>
-                <strong className="font-semibold">Stan:</strong> {order.state}
+                <strong className="font-semibold">Stan:</strong>{" "}
+                {translateOrderState(order.state)}
               </p>
-              <p>
+
+              <div>
                 <strong className="font-semibold">Dania:</strong>
-              </p>
-              <ul className="list-disc ml-6">
-                {order.meals.map((meal) => (
-                  <li key={meal.mealId}>
-                    <strong className="font-semibold">Danie:</strong>{" "}
-                    {getMealName(meal)},{" "}
-                    <strong className="font-semibold">Ilość:</strong>{" "}
-                    {meal.quantity}
-                    <strong className="font-semibold">Cena:</strong>{" "}
-                    {getTotalPriceForMeal(meal)}
-                  </li>
-                ))}
-              </ul>
-              <p>
-                <strong className="font-semibold">Cena całkowita:</strong>{" "}
+                <ul className="list-disc ml-6 space-y-2">
+                  {order.meals.map((meal) => (
+                    <li key={meal.mealId} className="flex justify-between">
+                      <span>
+                        <strong className="font-medium">Danie:</strong>{" "}
+                        {getMealName(meal)},{" "}
+                        <strong className="font-medium">Ilość:</strong>{" "}
+                        {meal.quantity}
+                      </span>
+                      <span>
+                        <strong className="font-medium">Cena:</strong>{" "}
+                        {getTotalPriceForMeal(meal)?.toFixed(2)} PLN
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <p className="mt-4 text-lg font-semibold">
+                <strong className="text-gray-800">Cena całkowita:</strong>{" "}
                 {order.meals
-                  .map((meal) => {
-                    return getTotalPriceForMeal(meal) ?? 0;
-                  })
-                  .reduce((acc, next) => {
-                    return acc + next;
-                  }, 0)}
+                  .map((meal) => getTotalPriceForMeal(meal) ?? 0)
+                  .reduce((acc, next) => acc + next, 0)
+                  .toFixed(2)}{" "}
+                PLN
               </p>
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-8">
             <button
               onClick={() => navigate("/orders")}
-              className="mt-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition duration-200"
+              className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             >
               Wróć do listy zamówień
             </button>
