@@ -65,6 +65,10 @@ const router = createBrowserRouter([
             path: "orderHistory",
             element: <OrderHistoryPage />,
           },
+          {
+            path: "orders/:id/pay",
+            element: <p>test</p>,
+          },
         ],
       },
     ],
