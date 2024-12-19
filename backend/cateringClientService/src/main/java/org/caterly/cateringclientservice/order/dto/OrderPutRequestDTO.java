@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderPutRequestDTO {
-    private Long clientId;
     private Date dateOfPurchase;
     private String address;
     private String status;
