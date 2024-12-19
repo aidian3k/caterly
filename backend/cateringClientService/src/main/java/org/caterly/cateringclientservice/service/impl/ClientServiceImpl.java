@@ -33,12 +33,5 @@ public final class ClientServiceImpl implements ClientService {
 
         return clientRepository.save(client);
     }
-
-    @Override
-    public Client getClientByEmail(final String email) {
-        return clientRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found"));
-    }
 }
 

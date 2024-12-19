@@ -11,6 +11,8 @@ import org.caterly.cateringclientservice.order.repository.OrderMealRepository;
 import org.caterly.cateringclientservice.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringclientservice.repository.ClientRepository;
+import org.caterly.cateringclientservice.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +30,20 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMealRepository orderMealRepository;
     private final ClientRepository clientRepository;
+
+    @Override
+    public final List<OrderResponseDTO> getAllClientOrders() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        Client user = clientRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
+
+        return orderRepository.findAllByClientId(user.getId()).stream()
+                .map(orderMapper::toOrderResponseDTO)
+                .toList();
+    }
 
     @Override
     @Transactional

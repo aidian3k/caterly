@@ -5,5 +5,4 @@ import org.caterly.cateringclientservice.dto.ClientRegistrationRequest;
 
 public interface ClientService {
     Client register(ClientRegistrationRequest request);
-    Client getClientByEmail(String email);
 }
