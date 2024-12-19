@@ -1,12 +1,13 @@
 package org.caterly.cateringclientservice.order.api.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.caterly.cateringclientservice.exception.OrderNotFoundException;
 import org.caterly.cateringclientservice.model.Client;
+import org.caterly.cateringclientservice.order.api.application.OrderService;
 import org.caterly.cateringclientservice.order.api.dto.OrderPlaceRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderResponseDTO;
 import org.caterly.cateringclientservice.service.ClientService;
-import org.caterly.cateringclientservice.order.api.application.OrderService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -132,5 +133,13 @@ public class OrderServiceImpl implements OrderService {
 
         Order orderSaved = orderRepository.save(order);
         return orderMapper.toOrderResponseDTO(orderSaved);
+    }
+
+    @Override
+    public OrderResponseDTO getOrderDetails(final long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+
+        return orderMapper.toOrderResponseDTO(order);
     }
 }

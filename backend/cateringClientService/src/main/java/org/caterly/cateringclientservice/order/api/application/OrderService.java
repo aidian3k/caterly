@@ -13,5 +13,6 @@ public interface OrderService {
             Long orderId,
             OrderPlaceRequestDTO orderPlaceRequest
     );
+    OrderResponseDTO getOrderDetails(long orderId);
 }
 

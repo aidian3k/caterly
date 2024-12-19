@@ -42,6 +42,14 @@ public final class OrderController {
         return ResponseEntity.ok(order);
     }
 
+    @GetMapping("/details/{orderId}")
+    public ResponseEntity<OrderResponseDTO> getOrderDetails(
+            final @PathVariable long orderId
+    ) {
+        OrderResponseDTO orderDetails = orderService.getOrderDetails(orderId);
+        return ResponseEntity.ok(orderDetails);
+    }
+
     @PutMapping("/{orderId}/place")
     public ResponseEntity<OrderResponseDTO> placeOrder(
             final @PathVariable Long orderId,
