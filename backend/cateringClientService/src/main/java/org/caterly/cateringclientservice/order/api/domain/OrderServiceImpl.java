@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +76,8 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         order.setClient(currentUser);
+        order.setState(OrderState.DRAFT);
+        order.setDateOfPurchase(LocalDateTime.now().toLocalDate());
         Order orderSaved = orderRepository.save(order);
 
         List<OrderMeal> meals = orderRequest.getMeals().stream()
@@ -125,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setState(OrderState.PAID);
         order.setAddress(orderPlaceRequest.getAddress());
+        order.setPaymentMethod(orderPlaceRequest.getPaymentMethod());
 
         Order orderSaved = orderRepository.save(order);
         return orderMapper.toOrderResponseDTO(orderSaved);
