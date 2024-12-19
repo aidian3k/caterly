@@ -1,10 +1,19 @@
-import { useNavigate } from "react-router-dom";
 import useGetOrderHistory from "../queries/orderHistory.query";
 import { OrderState } from "../interfaces/Order";
 
+const mapStatusToText = (status: OrderState): string => {
+  switch (status) {
+    case OrderState.DRAFT:
+      return "Niezłożone";
+    case OrderState.PAID:
+      return "W realizacji";
+    case OrderState.SHIPPED:
+      return "Dostarczone";
+  }
+};
+
 export default function OrderHistoryPage() {
-  const { data: orders, error, isError, isPending } = useGetOrderHistory();
-  const navigate = useNavigate();
+  const { data: orders, error, isError } = useGetOrderHistory();
 
   if (isError) {
     console.log(error);
@@ -47,7 +56,7 @@ export default function OrderHistoryPage() {
                           : "text-gray-500"
                     }`}
                   >
-                    {order.state}
+                    {mapStatusToText(order.state)}
                   </td>
                 </tr>
               ))}
