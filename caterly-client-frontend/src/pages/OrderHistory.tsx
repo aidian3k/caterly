@@ -29,9 +29,9 @@ export default function OrderHistoryPage() {
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-2 px-4 border-b">ID</th>
-                <th className="py-2 px-4 border-b">Nazwa</th>
+                <th className="py-2 px-4 border-b">Adres</th>
                 <th className="py-2 px-4 border-b">Data zamówienia</th>
-                <th className="py-2 px-4 border-b">Stan zamówienia</th>
+                <th className="py-2 px-4 border-b">Status zamówienia</th>
                 <th className="py-2 px-4 border-b">Akcje</th>
               </tr>
             </thead>
@@ -45,23 +45,25 @@ export default function OrderHistoryPage() {
                     <td className="py-2 px-4 border-b text-center">
                       {order.id}
                     </td>
-                    <td className="py-2 px-4 border-b">{order.name}</td>
+                    <td className="py-2 px-4 border-b text-center">
+                      {order.address ?? "-"}
+                    </td>
                     <td className="py-2 px-4 border-b text-center">
                       {new Date(order.dateOfPurchase).toLocaleDateString()}
                     </td>
                     <td
                       className={`py-2 px-4 border-b text-center ${
-                        order.orderState === OrderState.FINISHED
+                        order.state === OrderState.SHIPPED
                           ? "text-green-500"
-                          : order.orderState === OrderState.SHIPPED
+                          : order.state === OrderState.PAID
                             ? "text-blue-500"
                             : "text-gray-500"
                       }`}
                     >
-                      {translateOrderState(order.orderState)}
+                      {translateOrderState(order.state)}
                     </td>
                     <td className="py-2 px-4 border-b text-center">
-                      {order.orderState === OrderState.FINISHED && (
+                      {order.state === OrderState.SHIPPED && (
                         <button
                           className="text-blue-500 underline"
                           onClick={() => handleAddReview(order.id)}

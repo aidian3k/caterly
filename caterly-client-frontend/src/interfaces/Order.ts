@@ -1,12 +1,17 @@
+import MealDto from "./MealDto";
+
 export enum OrderState {
-  PURCHASED = "PURCHASED",
+  DRAFT = "DRAFT",
   SHIPPED = "SHIPPED",
-  FINISHED = "FINISHED",
+  PAID = "PAID",
 }
 
 export interface OrderDTO {
   id: number;
-  name: string;
+  clientId: number;
+  address: string | null;
   dateOfPurchase: string;
-  orderState: OrderState;
+  paymentMethod: string | null;
+  state: OrderState;
+  meals: MealDto[];
 }

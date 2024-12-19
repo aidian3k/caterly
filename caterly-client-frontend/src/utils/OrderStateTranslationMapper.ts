@@ -1,11 +1,11 @@
 import { OrderState } from "../interfaces/Order";
 
-export const translateOrderState = (orderState: OrderState) => {
-  switch (orderState) {
-    case OrderState.FINISHED:
-      return "Zakończone";
-    case OrderState.PURCHASED:
-      return "Opłacone";
+export const translateOrderState = (status: OrderState) => {
+  switch (status) {
+    case OrderState.DRAFT:
+      return "Niezłożone";
+    case OrderState.PAID:
+      return "W realizacji";
     case OrderState.SHIPPED:
       return "Dostarczone";
   }
