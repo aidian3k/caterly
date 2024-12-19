@@ -1,16 +1,6 @@
 import useGetOrderHistory from "../queries/orderHistory.query";
 import { OrderState } from "../interfaces/Order";
-
-const mapStatusToText = (status: OrderState): string => {
-  switch (status) {
-    case OrderState.DRAFT:
-      return "Niezłożone";
-    case OrderState.PAID:
-      return "W realizacji";
-    case OrderState.SHIPPED:
-      return "Dostarczone";
-  }
-};
+import { translateOrderState } from "../utils/OrderStateTranslationMapper";
 
 export default function OrderHistoryPage() {
   const { data: orders, error, isError } = useGetOrderHistory();
@@ -22,14 +12,13 @@ export default function OrderHistoryPage() {
   return (
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-4">Historia zamówień</h1>
-      {/*{error && <div className="text-red-500 mb-4">{error}</div>}*/}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 rounded-lg">
           <thead className="bg-gray-100">
             <tr>
               <th className="py-2 px-4 border-b">ID</th>
               <th className="py-2 px-4 border-b">Adres</th>
-              <th className="py-2 px-4 border-b">Data złożenia</th>
+              <th className="py-2 px-4 border-b">Data zamówienia</th>
               <th className="py-2 px-4 border-b">Status zamówienia</th>
             </tr>
           </thead>
@@ -56,7 +45,7 @@ export default function OrderHistoryPage() {
                           : "text-gray-500"
                     }`}
                   >
-                    {mapStatusToText(order.state)}
+                    {translateOrderState(order.state)}
                   </td>
                 </tr>
               ))}
