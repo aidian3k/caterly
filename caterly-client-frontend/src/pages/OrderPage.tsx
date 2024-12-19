@@ -1,15 +1,71 @@
 import { useParams } from "react-router-dom";
-import useOrder from "../queries/order.query";
 import { useNavigate } from "react-router-dom";
+import useMeals from "../queries/meals.query";
+import MealDto from "../interfaces/MealDto";
+import useGetOrderHistory from "../queries/orderHistory.query";
+import { OrderDTO } from "../interfaces/Order";
 
 export default function OrderPage() {
   const { orderid } = useParams<{ orderid: string }>();
-  const { data: order, error, isError, isPending } = useOrder(Number(orderid));
+
+  //   const { //odkomentować jak endpoint będzie istnieć i wywalić workaround co jest dalej
+  //     data: order,
+  //     error: orderError,
+  //     isError: isOrderError,
+  //     isPending: isOrderPending,
+  //   } = useOrder(Number(orderid));
+  const {
+    data: orders,
+    error: ordersError,
+    isError: isOrdersError,
+    isPending: isOrdersPending,
+  } = useGetOrderHistory();
+  const order: OrderDTO | undefined = orders?.find(
+    (o) => o.id === Number.parseInt(orderid ?? "0"),
+  );
+  const isOrderError = isOrdersError || !order;
+  const orderError =
+    ordersError ||
+    (order === undefined ? new Error("Order not found") : undefined);
+  const isOrderPending = isOrdersPending;
+
+  const {
+    data: meals,
+    error: mealsError,
+    isError: isMealsError,
+    isPending: isMealsPending,
+  } = useMeals();
   const navigate = useNavigate();
 
-  if (isError) {
-    console.error(error);
-  }
+  const getTotalPriceForMeal = (meal: MealDto) => {
+    if (!meals) {
+      return null;
+    }
+    const matchingEntity = meals.find((mealEntity) => {
+      return mealEntity.id === meal.mealId;
+    });
+    if (matchingEntity === undefined) {
+      return null;
+    }
+    const parsedPricePerMeal = Number.parseFloat(matchingEntity.price);
+    if (Number.isNaN(parsedPricePerMeal)) {
+      return null;
+    }
+    return meal.quantity * Number.parseFloat(matchingEntity.price);
+  };
+
+  const getMealName = (meal: MealDto) => {
+    if (!meals) {
+      return null;
+    }
+    const matchingEntity = meals.find((mealEntity) => {
+      return mealEntity.id === meal.mealId;
+    });
+    if (matchingEntity === undefined) {
+      return null;
+    }
+    return matchingEntity.typeOfFood;
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -17,9 +73,24 @@ export default function OrderPage() {
         Szczegóły zamówienia
       </h2>
 
-      {isPending && <p className="text-center text-gray-500">Ładowanie...</p>}
-      {isError && <p className="text-center text-red-500">Wystąpił błąd!</p>}
-
+      {(isOrderPending || isMealsPending) && (
+        <p className="text-center text-gray-500">Ładowanie...</p>
+      )}
+      {(isOrderError || isMealsError) && (
+        <div>
+          <p className="text-center text-red-500">Wystąpił błąd!</p>
+          {orderError && (
+            <p className="text-center text-red-500">
+              {"OrderError: " + orderError.message}
+            </p>
+          )}
+          {mealsError && (
+            <p className="text-center text-red-500">
+              {"MealsError: " + mealsError.message}
+            </p>
+          )}
+        </div>
+      )}
       {order && (
         <div className="space-y-6">
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
@@ -29,26 +100,44 @@ export default function OrderPage() {
 
             <div className="text-gray-600">
               <p>
-                <strong className="font-semibold">Nazwa:</strong> {order.name}
-              </p>
-              <p>
                 <strong className="font-semibold">Data zakupu:</strong>{" "}
                 {order.dateOfPurchase}
               </p>
               <p>
                 <strong className="font-semibold">Adres:</strong>{" "}
-                {order.address}
+                {order.address || "Brak danych"}
               </p>
               <p>
-                <strong className="font-semibold">Liczba sztuk:</strong>{" "}
-                {order.count}
-              </p>
-              <p>
-                <strong className="font-semibold">Łączna cena:</strong>{" "}
-                {order.totalPrice} PLN
+                <strong className="font-semibold">Metoda płatności:</strong>{" "}
+                {order.paymentMethod || "Brak danych"}
               </p>
               <p>
                 <strong className="font-semibold">Stan:</strong> {order.state}
+              </p>
+              <p>
+                <strong className="font-semibold">Dania:</strong>
+              </p>
+              <ul className="list-disc ml-6">
+                {order.meals.map((meal) => (
+                  <li key={meal.mealId}>
+                    <strong className="font-semibold">Danie:</strong>{" "}
+                    {getMealName(meal)},{" "}
+                    <strong className="font-semibold">Ilość:</strong>{" "}
+                    {meal.quantity}
+                    <strong className="font-semibold">Cena:</strong>{" "}
+                    {getTotalPriceForMeal(meal)}
+                  </li>
+                ))}
+              </ul>
+              <p>
+                <strong className="font-semibold">Cena całkowita:</strong>{" "}
+                {order.meals
+                  .map((meal) => {
+                    return getTotalPriceForMeal(meal) ?? 0;
+                  })
+                  .reduce((acc, next) => {
+                    return acc + next;
+                  }, 0)}
               </p>
             </div>
           </div>
