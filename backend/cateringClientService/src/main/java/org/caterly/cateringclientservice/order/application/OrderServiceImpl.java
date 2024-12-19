@@ -30,20 +30,25 @@ public class OrderServiceImpl implements OrderService {
     private final ClientRepository clientRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public OrderResponseDTO addOrder(
+    @Transactional
+    public final OrderResponseDTO addOrder(
             final OrderPostRequestDTO orderPostRequest
     ) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
         Client user = clientRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
 
         Order order = orderMapper.toOrderEntity(orderPostRequest);
         order.setClient(user);
         Order orderSaved = orderRepository.save(order);
 
         List<OrderMeal> meals = orderPostRequest.getMeals().stream()
-                .map(meal -> orderMapper.toOrderMealEntity(orderSaved, meal))
+                .map(
+                        meal -> orderMapper.toOrderMealEntity(orderSaved, meal)
+                )
                 .toList();
         orderMealRepository.saveAll(meals);
 
@@ -51,21 +56,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public OrderResponseDTO modifyOrder(
-            Long orderId,
+    @Transactional
+    public final OrderResponseDTO modifyOrder(
+            final Long orderId,
             final OrderPutRequestDTO orderPutRequest
     ) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
         Client user = clientRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order with given ID not found"));
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Order with given"
+                                + " ID not found")
+                );
 
         if (!order.getClient().getId().equals(user.getId())) {
             try {
-                throw new IllegalAccessException("You are not authorized to modify this order");
+                throw new IllegalAccessException("You are not authorized "
+                        + "to modify this order");
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
