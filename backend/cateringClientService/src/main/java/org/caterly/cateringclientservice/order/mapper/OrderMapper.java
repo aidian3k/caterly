@@ -29,7 +29,7 @@ public abstract class OrderMapper {
     private OrderMealRepository orderMealRepository;
 
 
-    @Mapping(target = "client", source = "clientId")
+    @Mapping(target = "client", ignore = true)
     @Mapping(target = "id", ignore = true)
     public abstract Order toOrderEntity(OrderPostRequestDTO dto);
 

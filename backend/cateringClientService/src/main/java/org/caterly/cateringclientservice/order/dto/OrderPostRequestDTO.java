@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderPostRequestDTO {
-    private Long clientId;
     private Date dateOfPurchase;
     private String address;
     private String status;
