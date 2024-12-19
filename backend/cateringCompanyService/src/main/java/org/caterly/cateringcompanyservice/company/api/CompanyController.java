@@ -2,6 +2,8 @@ package org.caterly.cateringcompanyservice.company.api;
 
 import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.company.api.DTO.CateringCompanyDTO;
+import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.caterly.cateringcompanyservice.company.application.CompanyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +28,19 @@ public class CompanyController {
     public ResponseEntity<CateringCompanyDTO> getCateringCompanyById(
             @PathVariable final Long id) {
         return ResponseEntity.ok(companyService.getCateringCompanyById(id));
+    }
+
+
+    /**
+     * Handles the creation of a new CateringCompany.
+     *
+     * @param cateringCompanyDTO the payload containing company details
+     * @return ResponseEntity containing the created CateringCompanyDTO with status 201
+     */
+    @PostMapping("/companies")
+    public ResponseEntity<CateringCompanyDTO> postCateringCompany(
+            @RequestBody @Valid final CateringCompanyDTO cateringCompanyDTO) {
+        CateringCompanyDTO createdCompany = companyService.createCompany(cateringCompanyDTO);
+        return ResponseEntity.status(201).body(createdCompany);
     }
 }
