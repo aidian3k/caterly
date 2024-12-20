@@ -43,6 +43,10 @@ public class Order {
 
     private String paymentMethod;
 
+    private String review;
+
+    private Integer rating;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;

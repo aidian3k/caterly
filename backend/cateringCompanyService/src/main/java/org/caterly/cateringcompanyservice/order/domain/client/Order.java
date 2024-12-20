@@ -31,6 +31,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "date_of_purchase")
     private LocalDate dateOfPurchase;
 
     @Enumerated(EnumType.STRING)
@@ -38,6 +39,7 @@ public class Order {
 
     private String address;
 
+    @Column(name = "payment_method")
     private String paymentMethod;
 
     @Column(name = "client_id")

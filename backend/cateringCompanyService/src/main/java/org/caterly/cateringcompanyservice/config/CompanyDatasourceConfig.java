@@ -22,7 +22,8 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = {"org.caterly.cateringcompanyservice.company","org.caterly.cateringcompanyservice.offer"},
+        basePackages = {"org.caterly.cateringcompanyservice.company",
+                "org.caterly.cateringcompanyservice.offer"},
         entityManagerFactoryRef = "companyEntityManagerFactory",
         transactionManagerRef = "companyTransactionManager"
 )
@@ -44,16 +45,21 @@ public class CompanyDatasourceConfig {
 
     @Bean
     @Primary
-    public LocalContainerEntityManagerFactoryBean companyEntityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+    public LocalContainerEntityManagerFactoryBean
+        companyEntityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean bean =
+                new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(companyDataSource());
-        bean.setPackagesToScan("org.caterly.cateringcompanyservice.offer.domain","org.caterly.cateringcompanyservice.company.domain");
+        bean.setPackagesToScan(
+                "org.caterly.cateringcompanyservice.offer.domain",
+                "org.caterly.cateringcompanyservice.company.domain");
 
         JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         bean.setJpaVendorAdapter(adapter);
 
         Map<String, String> props = new HashMap<>();
-        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        props.put("hibernate.dialect",
+                "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.show_sql", "true");
         bean.setJpaPropertyMap(props);
         return bean;
@@ -61,7 +67,11 @@ public class CompanyDatasourceConfig {
 
     @Bean
     public PlatformTransactionManager companyTransactionManager(
-            @Qualifier("companyEntityManagerFactory") LocalContainerEntityManagerFactoryBean companyEntityManagerFactory) {
-        return new JpaTransactionManager(Objects.requireNonNull(companyEntityManagerFactory.getObject()));
+            @Qualifier("companyEntityManagerFactory")
+            final LocalContainerEntityManagerFactoryBean
+                    companyEntityManagerFactory) {
+        return new JpaTransactionManager(
+                Objects.requireNonNull(
+                        companyEntityManagerFactory.getObject()));
     }
 }

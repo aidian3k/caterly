@@ -13,5 +13,7 @@ export interface OrderDTO {
   dateOfPurchase: string;
   paymentMethod: string | null;
   state: OrderState;
+  rating: number | null;
+  review: string | null;
   meals: MealDto[];
 }

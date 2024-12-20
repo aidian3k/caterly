@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.caterly.cateringcompanyservice.order.api.dto.OrderDetailsDto;
 import org.caterly.cateringcompanyservice.order.application.CateringOrderService;
 import org.caterly.cateringcompanyservice.order.domain.client.Order;
-import org.caterly.cateringcompanyservice.order.domain.client.OrderMealRepository;
 import org.caterly.cateringcompanyservice.order.domain.client.OrderRepository;
 import org.caterly.cateringcompanyservice.order.mapper.OrderMapper;
 import org.springframework.stereotype.Service;

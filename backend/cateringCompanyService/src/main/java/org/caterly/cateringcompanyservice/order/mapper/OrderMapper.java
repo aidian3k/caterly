@@ -18,7 +18,8 @@ public abstract class OrderMapper {
     @Autowired
     private OrderMealRepository orderMealRepository;
 
-    public abstract List<OrderDetailsDto> getOrderResponseDto(List<Order> source);
+    public abstract List<OrderDetailsDto> getOrderResponseDto(
+            List<Order> source);
 
     @Mapping(target = "meals", source = "id")
     public abstract OrderDetailsDto toOrderResponseDTO(Order entity);

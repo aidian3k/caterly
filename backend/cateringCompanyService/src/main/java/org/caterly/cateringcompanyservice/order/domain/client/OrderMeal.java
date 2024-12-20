@@ -35,4 +35,13 @@ public class OrderMeal {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    public Order getOrder() {
+        return order == null ? null : new Order(
+                order.getId(),
+                order.getDateOfPurchase(),
+                order.getState(), order.getAddress(),
+                order.getPaymentMethod(),
+                order.getClientId());
+    }
 }

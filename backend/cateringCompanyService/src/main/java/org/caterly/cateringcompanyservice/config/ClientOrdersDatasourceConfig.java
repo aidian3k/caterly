@@ -41,16 +41,20 @@ public class ClientOrdersDatasourceConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean clientOrdersEntityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+    public LocalContainerEntityManagerFactoryBean
+        clientOrdersEntityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean bean =
+                new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(clientOrdersDataSource());
-        bean.setPackagesToScan("org.caterly.cateringcompanyservice.order.domain.client");
+        bean.setPackagesToScan(
+                "org.caterly.cateringcompanyservice.order.domain.client");
 
         JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         bean.setJpaVendorAdapter(adapter);
 
         Map<String, String> props = new HashMap<>();
-        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        props.put("hibernate.dialect",
+                "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.show_sql", "true");
         bean.setJpaPropertyMap(props);
         return bean;
@@ -58,7 +62,11 @@ public class ClientOrdersDatasourceConfig {
 
     @Bean
     public PlatformTransactionManager clientOrdersTransactionManager(
-            @Qualifier("clientOrdersEntityManagerFactory") LocalContainerEntityManagerFactoryBean clientOrdersEntityManagerFactory) {
-        return new JpaTransactionManager(Objects.requireNonNull(clientOrdersEntityManagerFactory.getObject()));
+            @Qualifier("clientOrdersEntityManagerFactory")
+            final LocalContainerEntityManagerFactoryBean
+                    clientOrdersEntityManagerFactory) {
+        return new JpaTransactionManager(
+                Objects.requireNonNull(
+                        clientOrdersEntityManagerFactory.getObject()));
     }
 }

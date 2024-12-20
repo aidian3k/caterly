@@ -14,4 +14,8 @@ public class OrderDetailsDto {
     private String state;
     private String paymentMethod;
     private List<OrderMealDTO> meals;
+
+    public List<OrderMealDTO> getMeals() {
+        return meals == null ? List.of() : List.copyOf(meals);
+    }
 }

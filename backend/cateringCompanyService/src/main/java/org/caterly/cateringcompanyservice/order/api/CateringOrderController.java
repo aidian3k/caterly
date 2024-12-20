@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/company/api/order")
+@RequestMapping("/company/api/orders")
 @RequiredArgsConstructor
 public class CateringOrderController {
     private final CateringOrderService cateringOrderService;
-    @GetMapping("/all/{companyId}")
-    public ResponseEntity<List<OrderDetailsDto>> getAllOrders(@PathVariable final long companyId) {
+    @GetMapping("/{companyId}")
+    public ResponseEntity<List<OrderDetailsDto>> getAllOrders(
+            @PathVariable final long companyId) {
         return ResponseEntity.ok(cateringOrderService.getAllOrders(companyId));
     }
 }

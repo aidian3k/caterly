@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ReviewForm.css";
 import OrderService from "../../services/OrderService";
+import { queryClient } from "../../lib/queryClient";
 
 interface ReviewFormProps {
   orderId: number;
@@ -21,6 +22,7 @@ export default function ReviewForm({ orderId, onCancel }: ReviewFormProps) {
       await OrderService.addReview(orderId, rating, reviewText);
       setRating(0);
       setReviewText("");
+      await queryClient.invalidateQueries({ queryKey: ["orderHistory"] });
       onCancel();
     } catch (err: any) {
       setError(err.message);
