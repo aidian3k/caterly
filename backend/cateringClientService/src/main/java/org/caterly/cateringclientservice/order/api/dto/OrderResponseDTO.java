@@ -19,5 +19,7 @@ public class OrderResponseDTO {
     private String address;
     private String state;
     private String paymentMethod;
+    private String review;
+    private Integer rating;
     private List<OrderMealDTO> meals;
 }

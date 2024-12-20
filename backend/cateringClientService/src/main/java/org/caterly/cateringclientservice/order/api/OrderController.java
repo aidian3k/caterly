@@ -6,7 +6,9 @@ import org.caterly.cateringclientservice.order.api.application.OrderService;
 import org.caterly.cateringclientservice.order.api.dto.OrderPlaceRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderResponseDTO;
+import org.caterly.cateringclientservice.order.api.dto.OrderReviewDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +51,34 @@ public final class OrderController {
     ) {
         OrderResponseDTO order = orderService.placeOrder(
                 orderId, orderPutRequest
+        );
+        return ResponseEntity.ok(order);
+    }
+
+    @PutMapping("/{orderId}/deliver")
+    public ResponseEntity<OrderResponseDTO> deliverOrder(
+            final @PathVariable Long orderId,
+            final Authentication auth
+    ) {
+        String clientMail = auth.getName();
+        OrderResponseDTO order = orderService.deliverOrder(
+                orderId,
+                clientMail
+        );
+        return ResponseEntity.ok(order);
+    }
+
+    @PostMapping("/{orderId}/review")
+    public ResponseEntity<OrderResponseDTO> reviewOrder(
+            final @PathVariable Long orderId,
+            final Authentication auth,
+            final @RequestBody OrderReviewDTO orderReviewDTO
+            ) {
+        String clientMail = auth.getName();
+        OrderResponseDTO order = orderService.reviewOrder(
+                orderId,
+                clientMail,
+                orderReviewDTO
         );
         return ResponseEntity.ok(order);
     }
