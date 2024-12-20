@@ -22,5 +22,6 @@ public interface OrderService {
     OrderResponseDTO reviewOrder(Long orderId,
                                  String clientMail,
                                  OrderReviewDTO orderReviewDTO);
+    OrderResponseDTO getOrderDetails(long orderId);
 }
 
