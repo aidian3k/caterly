@@ -136,7 +136,7 @@ export default function OrderPage() {
 
           <div className="flex justify-center mt-8">
             <button
-              onClick={() => navigate("/orders")}
+              onClick={() => navigate("/orderHistory")}
               className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             >
               Wróć do listy zamówień

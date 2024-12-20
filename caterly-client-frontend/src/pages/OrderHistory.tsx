@@ -66,7 +66,7 @@ export default function OrderHistoryPage() {
                       {translateOrderState(order.state)}
                     </td>
                     <td className="py-2 px-4 border-b text-center">
-                      {order.state === OrderState.SHIPPED && (
+                      {order.state === OrderState.SHIPPED && !order.review && (
                         <button
                           className="text-blue-500 underline"
                           onClick={() => handleAddReview(order.id)}
@@ -80,6 +80,10 @@ export default function OrderHistoryPage() {
                           onClick={() => navigate(`/orders/${order.id}/pay`)}
                         />
                       )}
+                      <Button
+                        label="Szczegóły"
+                        onClick={() => navigate(`/order/${order.id}`)}
+                      />
                     </td>
                   </tr>
                 ))}
