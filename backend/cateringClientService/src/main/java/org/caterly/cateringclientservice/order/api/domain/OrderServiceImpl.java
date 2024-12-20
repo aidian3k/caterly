@@ -114,13 +114,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(
                         () -> new IllegalArgumentException("Order with given"
-                                + " ID not found")
+                                                           + " ID not found")
                 );
 
         if (!order.getClient().getId().equals(currentUser.getId())) {
             try {
                 throw new IllegalAccessException("You are not authorized "
-                        + "to modify this order");
+                                                 + "to modify this order");
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -132,5 +132,31 @@ public class OrderServiceImpl implements OrderService {
 
         Order orderSaved = orderRepository.save(order);
         return orderMapper.toOrderResponseDTO(orderSaved);
+    }
+
+    @Override
+    public OrderResponseDTO deliverOrder(
+            final Long orderId,
+            final String clientMail) {
+        var currentUser = clientService.getClientByEmail(
+                clientMail
+        );
+
+        var order = orderRepository.findById(orderId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Order with given"
+                                                           + " ID not found")
+                );
+
+        if (!order.getClient().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You are not allowed to "
+                                       + "modify this order.");
+        }
+
+        order.setState(OrderState.SHIPPED);
+
+        var savedOrder = orderRepository.save(order);
+
+        return orderMapper.toOrderResponseDTO(savedOrder);
     }
 }

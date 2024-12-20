@@ -7,6 +7,7 @@ import org.caterly.cateringclientservice.order.api.dto.OrderPlaceRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderResponseDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,19 @@ public final class OrderController {
     ) {
         OrderResponseDTO order = orderService.placeOrder(
                 orderId, orderPutRequest
+        );
+        return ResponseEntity.ok(order);
+    }
+
+    @PutMapping("/{orderId}/deliver")
+    public ResponseEntity<OrderResponseDTO> deliverOrder(
+            final @PathVariable Long orderId,
+            final Authentication auth
+    ) {
+        String clientMail = auth.getName();
+        OrderResponseDTO order = orderService.deliverOrder(
+                orderId,
+                clientMail
         );
         return ResponseEntity.ok(order);
     }

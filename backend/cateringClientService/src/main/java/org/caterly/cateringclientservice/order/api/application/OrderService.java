@@ -8,10 +8,14 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderResponseDTO> getAllClientOrders();
+
     OrderResponseDTO addOrder(OrderRequestDTO orderRequest);
+
     OrderResponseDTO placeOrder(
             Long orderId,
             OrderPlaceRequestDTO orderPlaceRequest
     );
+
+    OrderResponseDTO deliverOrder(Long orderId, String clientMail);
 }
 
