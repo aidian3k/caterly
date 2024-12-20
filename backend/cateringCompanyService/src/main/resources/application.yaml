@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://0.0.0.0:5433/mydatabase
+    url: jdbc:postgresql://postgres_catering_company:5433/mydatabase
     username: myuser
     password: secret
     client-order:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5434/myclientdatabase
+      url: jdbc:postgresql://postgres_catering_client:5434/myclientdatabase
       username: myclientuser
       password: secret
   jpa:

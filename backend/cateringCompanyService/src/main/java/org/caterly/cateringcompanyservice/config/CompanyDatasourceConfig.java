@@ -66,6 +66,7 @@ public class CompanyDatasourceConfig {
     }
 
     @Bean
+    @Primary
     public PlatformTransactionManager companyTransactionManager(
             @Qualifier("companyEntityManagerFactory")
             final LocalContainerEntityManagerFactoryBean

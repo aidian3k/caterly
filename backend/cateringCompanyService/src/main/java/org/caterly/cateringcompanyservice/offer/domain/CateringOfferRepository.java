@@ -9,8 +9,7 @@ import java.util.List;
 @Repository
 interface CateringOfferRepository
     extends JpaRepository<CateringFoodEntity, Long> {
-    @Query(value = "SELECT * FROM catering_food_entity "
-            + "WHERE catering_company_id = :companyId", nativeQuery = true)
+    @Query("select c from CateringFoodEntity c where c.company.id = :companyId")
     List<CateringFoodEntity> findAllByCompanyId(Long companyId);
 
     void deleteByCompanyIdAndId(Long companyId, Long foodId);

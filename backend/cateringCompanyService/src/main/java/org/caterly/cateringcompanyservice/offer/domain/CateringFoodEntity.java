@@ -1,5 +1,6 @@
 package org.caterly.cateringcompanyservice.offer.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +31,7 @@ public final class CateringFoodEntity {
 
     private double price;
 
+    @Column(name = "type_of_food")
     private String typeOfFood;
 
     private String picture;
