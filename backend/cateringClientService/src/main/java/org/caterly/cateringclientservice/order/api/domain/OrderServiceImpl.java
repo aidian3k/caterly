@@ -5,6 +5,7 @@ import org.caterly.cateringclientservice.model.Client;
 import org.caterly.cateringclientservice.order.api.dto.OrderPlaceRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderRequestDTO;
 import org.caterly.cateringclientservice.order.api.dto.OrderResponseDTO;
+import org.caterly.cateringclientservice.order.api.dto.OrderReviewDTO;
 import org.caterly.cateringclientservice.service.ClientService;
 import org.caterly.cateringclientservice.order.api.application.OrderService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -135,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderResponseDTO deliverOrder(
             final Long orderId,
             final String clientMail) {
@@ -154,6 +156,34 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setState(OrderState.SHIPPED);
+
+        var savedOrder = orderRepository.save(order);
+
+        return orderMapper.toOrderResponseDTO(savedOrder);
+    }
+
+    @Override
+    @Transactional
+    public OrderResponseDTO reviewOrder(final Long orderId,
+                                        final String clientMail,
+                                        final OrderReviewDTO orderReviewDTO) {
+        var currentUser = clientService.getClientByEmail(
+                clientMail
+        );
+
+        var order = orderRepository.findById(orderId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Order with given"
+                                                           + " ID not found")
+                );
+
+        if (!order.getClient().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You are not allowed to "
+                                       + "modify this order.");
+        }
+
+        order.setRating(orderReviewDTO.getRating());
+        order.setReview(orderReviewDTO.getReviewText());
 
         var savedOrder = orderRepository.save(order);
 
